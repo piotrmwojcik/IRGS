@@ -6,9 +6,9 @@
 > **Arxiv preprint**
 
 **Official implementation of "IRGS: Inter-Reflective Gaussian Splatting with 2D Gaussian Ray Tracing".** 
-<div align="center">
-  <img src="assets/teaser.png"/>
-</div><br/>
+
+https://github.com/user-attachments/assets/12ec8516-be4b-4b42-a4cd-e09e2bcb964d
+
 
 ## 🛠️ Pipeline
 <div align="center">
