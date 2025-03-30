@@ -16,10 +16,10 @@
 #include <torch/extension.h>
 #include <ATen/cuda/CUDAContext.h>
 
-#include <gtracer/bvh.h>
+#include <surfel_tracer/bvh.h>
 
 namespace py = pybind11;
-namespace gtracer {
+namespace surfel_tracer {
 
 class GaussianTracer {
 public:
@@ -104,13 +104,13 @@ GaussianTracer* create_gaussiantracer() {
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
 
-py::class_<gtracer::GaussianTracer>(m, "GaussianTracer")
-    .def("intersection_test", &gtracer::GaussianTracer::intersection_test)
-    .def("trace_forward", &gtracer::GaussianTracer::trace_forward)
-    .def("trace_backward", &gtracer::GaussianTracer::trace_backward)
-    .def("build_bvh", &gtracer::GaussianTracer::build_bvh)
-    .def("update_bvh", &gtracer::GaussianTracer::update_bvh);
+py::class_<surfel_tracer::GaussianTracer>(m, "GaussianTracer")
+    .def("intersection_test", &surfel_tracer::GaussianTracer::intersection_test)
+    .def("trace_forward", &surfel_tracer::GaussianTracer::trace_forward)
+    .def("trace_backward", &surfel_tracer::GaussianTracer::trace_backward)
+    .def("build_bvh", &surfel_tracer::GaussianTracer::build_bvh)
+    .def("update_bvh", &surfel_tracer::GaussianTracer::update_bvh);
 
-m.def("create_gaussiantracer", &gtracer::create_gaussiantracer);
+m.def("create_gaussiantracer", &surfel_tracer::create_gaussiantracer);
 
 }

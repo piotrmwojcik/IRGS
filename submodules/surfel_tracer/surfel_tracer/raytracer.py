@@ -1,5 +1,5 @@
 import torch
-from gtracer import _C
+from surfel_tracer import _C
 
 
 class _GaussianTrace(torch.autograd.Function):

@@ -3,7 +3,7 @@
 
 #include "gaussiantrace_forward.h"
 
-namespace gtracer {
+namespace surfel_tracer {
 
 extern "C" {
 	__constant__ Gaussiantrace_forward::Params params;

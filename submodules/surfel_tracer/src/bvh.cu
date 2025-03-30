@@ -1,4 +1,4 @@
-#include <gtracer/bvh.h>
+#include <surfel_tracer/bvh.h>
 
 #include <optix.h>
 #include <optix_stubs.h>
@@ -22,10 +22,10 @@ namespace optix_ptx {
 #include <iostream>
 #include <cstdio>
 
-using namespace gtracer;
+using namespace surfel_tracer;
 
 
-namespace gtracer {
+namespace surfel_tracer {
 
 OptixDeviceContext g_optix;
 

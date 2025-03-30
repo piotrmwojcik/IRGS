@@ -3,7 +3,7 @@
 
 #include "gaussiantrace_intersection_test.h"
 
-namespace gtracer {
+namespace surfel_tracer {
 
 extern "C" {
 	__constant__ Gaussiantrace_intersection_test::Params params;

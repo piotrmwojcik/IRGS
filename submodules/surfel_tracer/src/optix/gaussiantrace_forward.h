@@ -3,7 +3,7 @@
 
 #include <optix.h>
 
-namespace gtracer {
+namespace surfel_tracer {
 
 struct Gaussiantrace_forward {
 	struct Params {

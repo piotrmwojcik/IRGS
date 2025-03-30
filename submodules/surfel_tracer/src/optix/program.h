@@ -1,6 +1,6 @@
 #pragma once
 
-namespace gtracer {
+namespace surfel_tracer {
 
 #define OPTIX_CHECK_THROW(x)                                                                                 \
 	do {                                                                                                     \
@@ -219,7 +219,7 @@ namespace optix {
 	private:
 		OptixShaderBindingTable m_sbt = {};
 		OptixPipeline m_pipeline = nullptr;
-		gtracer::GPUMemory<typename T::Params> m_params_gpu = gtracer::GPUMemory<typename T::Params>(1);
+		surfel_tracer::GPUMemory<typename T::Params> m_params_gpu = surfel_tracer::GPUMemory<typename T::Params>(1);
 	};
 }
 

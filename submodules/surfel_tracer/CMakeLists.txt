@@ -51,8 +51,8 @@ list(APPEND INCLUDE_DIRECTORIES "include/optix" "include/glm")
 ###############################################################################
 
 list(APPEND INCLUDE_DIRECTORIES "include")
-list(APPEND GTRACER_LIBRARIES ${CMAKE_DL_LIBS})
-list(APPEND GTRACER_SOURCES
+list(APPEND SURFELTRACER_LIBRARIES ${CMAKE_DL_LIBS})
+list(APPEND SURFELTRACER_SOURCES
 	src/bvh.cu
 )
 
@@ -78,7 +78,7 @@ add_library(optix_program OBJECT
 )
 
 set_target_properties(optix_program PROPERTIES CUDA_PTX_COMPILATION ON CUDA_ARCHITECTURES OFF)
-target_compile_definitions(optix_program PUBLIC ${GTRACER_DEFINITIONS} -DTCNN_MIN_GPU_ARCH=0)
+target_compile_definitions(optix_program PUBLIC ${SURFELTRACER_DEFINITIONS} -DTCNN_MIN_GPU_ARCH=0)
 target_compile_options(optix_program PUBLIC "--expt-relaxed-constexpr")
 
 target_include_directories(optix_program PUBLIC ${INCLUDE_DIRECTORIES})
@@ -109,11 +109,11 @@ add_custom_command(
 	COMMENT "Converting PTX files to a C header"
 )
 
-list(APPEND GTRACER_SOURCES ${OPTIX_PTX_HEADER})
+list(APPEND SURFELTRACER_SOURCES ${OPTIX_PTX_HEADER})
 
-add_library(gtracer STATIC ${GTRACER_SOURCES})
-set_target_properties(gtracer PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS ON CUDA_SEPARABLE_COMPILATION ON)
-target_compile_definitions(gtracer PUBLIC ${GTRACER_DEFINITIONS})
-target_compile_options(gtracer PUBLIC $<$<COMPILE_LANGUAGE:CUDA>:${CUDA_NVCC_FLAGS}>)
-target_include_directories(gtracer PUBLIC ${INCLUDE_DIRECTORIES})
-target_link_libraries(gtracer PUBLIC ${GTRACER_LIBRARIES})
+add_library(surfel_tracer STATIC ${SURFELTRACER_SOURCES})
+set_target_properties(surfel_tracer PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS ON CUDA_SEPARABLE_COMPILATION ON)
+target_compile_definitions(surfel_tracer PUBLIC ${SURFELTRACER_DEFINITIONS})
+target_compile_options(surfel_tracer PUBLIC $<$<COMPILE_LANGUAGE:CUDA>:${CUDA_NVCC_FLAGS}>)
+target_include_directories(surfel_tracer PUBLIC ${INCLUDE_DIRECTORIES})
+target_link_libraries(surfel_tracer PUBLIC ${SURFELTRACER_LIBRARIES})

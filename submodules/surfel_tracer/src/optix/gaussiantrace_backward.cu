@@ -2,7 +2,7 @@
 #include <optix.h>
 
 
-namespace gtracer {
+namespace surfel_tracer {
 
 extern "C" {
 	__constant__ Gaussiantrace_backward::Params params;
