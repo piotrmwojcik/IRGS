@@ -442,10 +442,8 @@ def readSynthetic4RelightInfo(path, white_background, eval, debug=False):
         # We create random points inside the bounds of the synthetic Blender scenes
         xyz = np.random.random((num_pts, 3)) * 2.6 - 1.3
         shs = np.random.random((num_pts, 3)) / 255.0
-        normals = np.random.randn(*xyz.shape)
-        normals /= np.linalg.norm(normals, axis=-1, keepdims=True)
 
-        storePly(ply_path, xyz, SH2RGB(shs) * 255, normals)
+        storePly(ply_path, xyz, SH2RGB(shs) * 255)
 
     try:
         pcd = fetchPly(ply_path)
@@ -543,8 +541,6 @@ def readStanfordORBInfo(path, white_background, eval, extension=".exr", benchmar
         # We create random points inside the bounds of the synthetic Blender scenes
         xyz = np.random.random((num_pts, 3)) * 2.6 - 1.3
         shs = np.random.random((num_pts, 3)) / 255.0
-        normals = np.random.randn(*xyz.shape)
-        normals /= np.linalg.norm(normals, axis=-1, keepdims=True)
 
         storePly(ply_path, xyz, SH2RGB(shs) * 255)
 
