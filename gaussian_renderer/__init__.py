@@ -222,14 +222,27 @@ def render_ir(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tenso
     specular = render_results['specular']
     light_direct = render_results['light_direct']
     
+    rendered_diffuse = torch.zeros_like(rendered_image).permute(1, 2, 0)
+    rendered_diffuse[mask] = diffuse
+    rendered_diffuse = rendered_diffuse.permute(2, 0, 1)
+        
+    rendered_specular = torch.zeros_like(rendered_image).permute(1, 2, 0)
+    rendered_specular[mask] = specular
+    rendered_specular = rendered_specular.permute(2, 0, 1)
+    rendered_full = rgb_to_srgb(rendered_diffuse + rendered_specular)
+    final_image = rendered_full * render_alpha + bg_color[:, None, None] * (1 - render_alpha)
+        
     final_image_sh = rgb_to_srgb(rendered_image) + bg_color[:, None, None] * (1 - render_alpha)
     
     direct_lights = rgb_to_srgb(pc.get_envmap(rays_d, mode='pure_env').permute(2,0,1))
     env_only = direct_lights
     
     results = {
-        "render_sh": final_image_sh,
+        "render": final_image,
         "env_only": env_only,
+        "render_sh": final_image_sh,
+        "diffuse": rgb_to_srgb(rendered_diffuse),
+        "specular": rgb_to_srgb(rendered_specular),
         "mask": mask,
         "roughness": rendered_roughness * render_alpha,
         "base_color": rgb_to_srgb(rendered_base_color) * render_alpha,
@@ -273,17 +286,6 @@ def render_ir(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tenso
         rendered_light_indirect[mask] = light_indirect
         rendered_light_indirect = rendered_light_indirect.permute(2, 0, 1) * render_alpha
         
-        rendered_diffuse = torch.zeros_like(rendered_image).permute(1, 2, 0)
-        rendered_diffuse[mask] = diffuse
-        rendered_diffuse = rendered_diffuse.permute(2, 0, 1)
-        
-        rendered_specular = torch.zeros_like(rendered_image).permute(1, 2, 0)
-        rendered_specular[mask] = specular
-        rendered_specular = rendered_specular.permute(2, 0, 1)
-        
-        rendered_full = rgb_to_srgb(rendered_diffuse + rendered_specular)
-        final_image = rendered_full * render_alpha + bg_color[:, None, None] * (1 - render_alpha)
-        
         rendered_light_direct = torch.zeros_like(rendered_image).permute(1, 2, 0)
         rendered_light_direct[mask] = light_direct
         rendered_light_direct = rendered_light_direct.permute(2, 0, 1) * render_alpha
@@ -291,10 +293,7 @@ def render_ir(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tenso
         final_image_env = rendered_full * render_alpha + direct_lights * (1 - render_alpha)
         
         results.update({
-            "render": final_image,
             "render_env": final_image_env,
-            "diffuse": rgb_to_srgb(rendered_diffuse),
-            "specular": rgb_to_srgb(rendered_specular),
             "light_direct": rgb_to_srgb(rendered_light_direct),
             "visibility": rendered_visibility,
             "light": rgb_to_srgb(rendered_light),
