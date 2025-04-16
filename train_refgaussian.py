@@ -121,7 +121,8 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         if not viewpoint_stack:
             viewpoint_stack = scene.getTrainCameras().copy()
         # front position r_00070
-        viewpoint_cam = viewpoint_stack[69]
+        viewpoint_cam = viewpoint_stack.pop(randint(0, len(viewpoint_stack) - 1))
+        #viewpoint_cam = viewpoint_stack[69]
 
         # Set render
         render = select_render_method(iteration, opt, initial_stage)
@@ -147,7 +148,8 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         with torch.no_grad():
             
             if iteration % TEST_INTERVAL == 0 or iteration == first_iter + 1 or iteration == opt.volume_render_until_iter + 1:
-                save_training_vis(viewpoint_cam, gaussians, background, render, pipe, opt, iteration, initial_stage)
+                vis_viewpoint_cam = viewpoint_stack[69]
+                save_training_vis(vis_viewpoint_cam, gaussians, background, render, pipe, opt, iteration, initial_stage)
 
             ema_loss_for_log = 0.4 * loss + 0.6 * ema_loss_for_log
             ema_dist_for_log = 0.4 * dist_loss + 0.6 * ema_dist_for_log
