@@ -260,6 +260,7 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
 
             image_path = os.path.join(path, 'small_harbour_sunset_4k_32x16_rot270', cam_name)
             image_name = Path(cam_name).stem
+            print('!!! ', image_path, cam_name)
             image = Image.open(image_path)
 
             im_data = np.array(image.convert("RGBA"))
