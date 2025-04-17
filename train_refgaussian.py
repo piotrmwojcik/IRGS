@@ -89,6 +89,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         opt.init_until_iter = 0
 
     vis_viewpoint_stack = copy.deepcopy(viewpoint_stack)
+    print('!!! ', vis_viewpoint_stack)
     # Training loop
     while iteration < TOT_ITER:
         iter_start.record()
