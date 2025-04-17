@@ -93,6 +93,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     vis_viewpoint_stack = sorted(vis_viewpoint_stack, key=lambda c: c.image_name)
     view_index = 0
     for idx, c in enumerate(vis_viewpoint_stack):
+        print(c.image_name)
         if c.image_name == 'r_0070.png':
             print('Found front view')
             view_index = idx
