@@ -90,7 +90,8 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
 
     # Training loop
     vis_viewpoint_stack = scene.getTrainCameras().copy()
-    print('!!! ', vis_viewpoint_stack[0])
+    for c in vis_viewpoint_stack:
+        print('!!! ', vis_viewpoint_stack[0].image_name)
     while iteration < TOT_ITER:
         iter_start.record()
 
