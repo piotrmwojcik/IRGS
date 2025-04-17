@@ -90,6 +90,13 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         # Pick a random Camera
         if not viewpoint_stack:
             viewpoint_stack = scene.getTrainCameras().copy()
+            vis_viewpoint_stack = sorted(vis_viewpoint_stack, key=lambda c: c.image_name)
+            view_index = 0
+            for idx, c in enumerate(vis_viewpoint_stack):
+                # print(c.image_name)
+                if c.image_name == 'r_0092':
+                    print('Found front view')
+                    view_index = idx
         viewpoint_cam = viewpoint_stack.pop(randint(0, len(viewpoint_stack) - 1))
 
         render_pkg = render_ir(viewpoint_cam, gaussians, pipe, background, opt=opt, iteration=iteration, training=True)
@@ -129,7 +136,8 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
                     gaussians.update_bvh()
 
             if iteration % 500 == 0 or iteration == first_iter + 1:
-                save_training_vis(viewpoint_cam, gaussians, background, render_ir, pipe, opt, iteration)
+                vis_viewpoint_cam = vis_viewpoint_stack[view_index]
+                save_training_vis(vis_viewpoint_cam, gaussians, background, render_ir, pipe, opt, iteration)
 
             ema_loss_for_log = 0.4 * loss + 0.6 * ema_loss_for_log
             ema_dist_for_log = 0.4 * dist_loss + 0.6 * ema_dist_for_log
