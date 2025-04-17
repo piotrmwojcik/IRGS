@@ -89,6 +89,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         opt.init_until_iter = 0
 
     # Training loop
+    vis_viewpoint_stack = scene.getTrainCameras().copy()
     while iteration < TOT_ITER:
         iter_start.record()
 
@@ -121,7 +122,6 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         # Pick a random Camera
         if not viewpoint_stack:
             viewpoint_stack = scene.getTrainCameras().copy()
-            vis_viewpoint_stack = scene.getTrainCameras().copy()
             # front position r_00070
         viewpoint_cam = viewpoint_stack.pop(randint(0, len(viewpoint_stack) - 1))
         #viewpoint_cam = viewpoint_stack[69]
