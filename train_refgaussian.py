@@ -11,6 +11,7 @@
 
 import os
 import torch
+import copy
 from random import randint
 from utils.loss_utils import calculate_loss, l1_loss
 from gaussian_renderer import render_surfel, render_initial, render_volume
@@ -87,6 +88,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     if not initial_stage:
         opt.init_until_iter = 0
 
+    vis_viewpoint_stack = copy.deepcopy(viewpoint_stack)
     # Training loop
     while iteration < TOT_ITER:
         iter_start.record()
@@ -148,7 +150,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         with torch.no_grad():
             
             if iteration % TEST_INTERVAL == 0 or iteration == first_iter + 1 or iteration == opt.volume_render_until_iter + 1:
-                vis_viewpoint_cam = viewpoint_stack[69]
+                vis_viewpoint_cam = vis_viewpoint_stack[69]
                 save_training_vis(vis_viewpoint_cam, gaussians, background, render, pipe, opt, iteration, initial_stage)
 
             ema_loss_for_log = 0.4 * loss + 0.6 * ema_loss_for_log
