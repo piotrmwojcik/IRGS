@@ -93,6 +93,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     vis_viewpoint_stack = sorted(vis_viewpoint_stack, key=lambda c: c.image_name)
     for c in vis_viewpoint_stack:
         print(c.image_name)
+    print('!!! ', vis_viewpoint_stack[69].image_name)
     while iteration < TOT_ITER:
         iter_start.record()
 
