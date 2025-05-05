@@ -30,6 +30,14 @@ def load_json_config(json_file):
     return load_dict
 
 
+def find_matching_file(folder, prefix_file):
+    prefix = os.path.splitext(prefix_file)[0]  # 'r_0010' from 'r_0010.png'
+    for f in os.listdir(folder):
+        if f.startswith(prefix) and f.endswith('.png') and f != prefix_file:
+            return f
+    return None
+
+
 if __name__ == '__main__':
     # Set up command line argument parser
     parser = ArgumentParser(description="Composition and Relighting for Relightable 3D Gaussian")
@@ -96,14 +104,14 @@ if __name__ == '__main__':
         R = np.transpose(w2c[:3, :3])  # R is stored transposed due to 'glm' in CUDA code
         T = w2c[:3, 3]
 
-        print('!!! ', args.source_path)
-
+        #print('!!! ', args.source_path)
         image_path = os.path.join(args.source_path, "golden_bay_4k_32x16_rot330/" + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
         #mask = image_rgba[..., 3:]
         #mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
 
-        albedo_path = os.path.join(args.source_path, "albedo/" + frame["file_path"].split("/")[-1] + ".png")
+        match = find_matching_file(os.path.join(args.source_path, 'albedo'), frame["file_path"])
+        albedo_path = os.path.join(args.source_path, "albedo/" + match + ".png")
         gt_albedo_np = load_img_rgb(albedo_path)
         gt_albedo = torch.from_numpy(gt_albedo_np[..., :3] * gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         gt_albedo = srgb_to_rgb(gt_albedo)
