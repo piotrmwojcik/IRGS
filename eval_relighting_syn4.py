@@ -66,15 +66,14 @@ if __name__ == '__main__':
     frames = contents["frames"]
     
     task_dict = {
-        "envmap_path": "/home/pwojcik/IRGS/data/jumpingjacks150_v3_tex_statictimestep75/golden_bay_4k_32x16_rot330.hdr",
         "env6": {
             "capture_list": ["render", "render_env"],
-            "envmap_path": "assets/env_map/envmap6.exr",
+            "envmap_path": "/home/pwojcik/IRGS/data/jumpingjacks150_v3_tex_statictimestep75/golden_bay_4k_32x16_rot330.hdr",
         },
-        "env12": {
-            "capture_list": ["render", "render_env"],
-            "envmap_path": "assets/env_map/envmap12.exr",
-        }
+        #"env12": {
+        #    "capture_list": ["render", "render_env"],
+        #    "envmap_path": "assets/env_map/envmap12.exr",
+        #}
     }
     results_dict = {}
 
