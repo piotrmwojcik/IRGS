@@ -131,7 +131,7 @@ if __name__ == '__main__':
         with torch.no_grad():
             render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
 
-        render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
+        render_pkg['base_color_linear'] = render_pkg['base_color_linear']# * mask
         #render_pkg['roughness'] = render_pkg['roughness'] * mask
         gt_albedo = gt_albedo #* mask
         #gt_roughness = gt_roughness * mask
