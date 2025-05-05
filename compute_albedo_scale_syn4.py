@@ -83,6 +83,7 @@ if __name__ == '__main__':
         T = w2c[:3, 3]
 
         albedo_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_albedo.png")
+        print('!!!! ', albedo_path)
         gt_albedo_np = load_img_rgb(albedo_path)
         mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         gt_albedo = torch.from_numpy(gt_albedo_np[..., :3] * gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
