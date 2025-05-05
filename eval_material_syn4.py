@@ -98,19 +98,19 @@ if __name__ == '__main__':
 
         print('!!! ', args.source_path)
 
-        image_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rgba.png")
+        image_path = os.path.join(args.source_path, "golden_bay_4k_32x16_rot330/" + frame["file_path"].split("/")[-1] + "_rgb.png")
         image_rgba = load_img_rgb(image_path)
-        mask = image_rgba[..., 3:]
-        mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
+        #mask = image_rgba[..., 3:]
+        #mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
 
-        albedo_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_albedo.png")
+        albedo_path = os.path.join(args.source_path, "albedo/" + frame["file_path"].split("/")[-1] + ".png")
         gt_albedo_np = load_img_rgb(albedo_path)
         gt_albedo = torch.from_numpy(gt_albedo_np[..., :3] * gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         gt_albedo = srgb_to_rgb(gt_albedo)
         
-        roughness_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rough.png")
-        gt_roughness_np = load_img_rgb(roughness_path)
-        gt_roughness = torch.from_numpy(gt_roughness_np[..., :3] * gt_roughness_np[..., 3:4]).permute(2, 0, 1).float().cuda()
+        #roughness_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rough.png")
+        #gt_roughness_np = load_img_rgb(roughness_path)
+        #gt_roughness = torch.from_numpy(gt_roughness_np[..., :3] * gt_roughness_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         
         H = gt_albedo.shape[1]
         W = gt_albedo.shape[2]
@@ -125,24 +125,24 @@ if __name__ == '__main__':
 
         render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
         render_pkg['roughness'] = render_pkg['roughness'] * mask
-        gt_albedo = gt_albedo * mask
-        gt_roughness = gt_roughness * mask
+        gt_albedo = gt_albedo #* mask
+        #gt_roughness = gt_roughness * mask
         psnr_albedo += psnr(render_pkg['base_color_linear'], gt_albedo).mean().double().item()
         ssim_albedo += ssim(render_pkg['base_color_linear'], gt_albedo).mean().double().item()
         if not args.no_lpips:
             lpips_albedo += lpips(render_pkg['base_color_linear'], gt_albedo, net_type='vgg').mean().double().item()
-        mse_roughness += ((render_pkg['roughness'] - gt_roughness)**2).mean().double().item()
+        #mse_roughness += ((render_pkg['roughness'] - gt_roughness)**2).mean().double().item()
                 
     psnr_albedo /= len(frames)
     ssim_albedo /= len(frames)
     lpips_albedo /= len(frames)
-    mse_roughness /= len(frames)
+    #mse_roughness /= len(frames)
     
     results_dict["psnr_albedo_avg"] = psnr_albedo
     results_dict["ssim_albedo_avg"] = ssim_albedo
     results_dict["lpips_albedo_avg"] = lpips_albedo
-    results_dict["mse_roughness_avg"] = mse_roughness
-    print("\nEvaluating AVG: PSNR_ALBEDO {: .2f} SSIM_ALBEDO {: .3f} LPIPS_ALBEDO {: .3f} mse_roughness {: .4f}".format(psnr_albedo, ssim_albedo, lpips_albedo, mse_roughness))
+    #results_dict["mse_roughness_avg"] = mse_roughness
+    print("\nEvaluating AVG: PSNR_ALBEDO {: .2f} SSIM_ALBEDO {: .3f} LPIPS_ALBEDO {: .3f}".format(psnr_albedo, ssim_albedo, lpips_albedo, mse_roughness))
     with open(os.path.join(args.model_path, "material_results.json"), "w") as f:
         json.dump(results_dict, f, indent=4)
     print("Results saved to", os.path.join(args.model_path, "material_results.json"))
