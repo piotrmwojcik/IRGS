@@ -30,6 +30,14 @@ def load_json_config(json_file):
     return load_dict
 
 
+def find_matching_file(folder, prefix_file):
+    prefix = os.path.splitext(prefix_file)[0]  # 'r_0010' from 'r_0010.png'
+    for f in os.listdir(folder):
+        if f.startswith(prefix) and f.endswith('.png') and f != prefix_file:
+            return f
+    return None
+
+
 if __name__ == '__main__':
     # Set up command line argument parser
     parser = ArgumentParser(description="Composition and Relighting for Relightable 3D Gaussian")
@@ -71,7 +79,7 @@ if __name__ == '__main__':
     
     albedo_list = []
     albedo_gt_list = []
-    print('!!! len ', len(frames))
+    #print('!!! len ', len(frames))
     for idx, frame in enumerate(tqdm(frames, leave=False)):
         # NeRF 'transform_matrix' is a camera-to-world transform
         c2w = np.array(frame["transform_matrix"])
@@ -83,8 +91,10 @@ if __name__ == '__main__':
         R = np.transpose(w2c[:3, :3])  # R is stored transposed due to 'glm' in CUDA code
         T = w2c[:3, 3]
 
-        albedo_path = os.path.join(args.source_path, frame["file_path"].split("/")[-1] + "_albedo.png")
-        print('!!!! ', albedo_path)
+        match = find_matching_file(os.path.join(args.source_path, 'albedo'), frame["file_path"])
+
+        albedo_path = match
+        #print('!!!! ', albedo_path)
         gt_albedo_np = load_img_rgb(albedo_path)
         mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         gt_albedo = torch.from_numpy(gt_albedo_np[..., :3] * gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
