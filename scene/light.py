@@ -248,7 +248,9 @@ class EnvLight(torch.nn.Module):
         if path.endswith(".exr"):
             image = pyexr.open(path).get()[:, :, :3]
         elif path.endswith(".hdr"):  # #
-            image = imageio.imread(path, format='HDR-FI')[:, :, :3]
+            #image = imageio.imread(path, format='HDR-FI')[:, :, :3]
+            image = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         else:
             image = srgb_to_rgb(imageio.imread(path)[:, :, :3] / 255)
             
