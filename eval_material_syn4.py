@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
         print('!!! ', args.source_path)
 
-        image_path = os.path.join(args.source_path, "golden_bay_4k_32x16_rot330/" + frame["file_path"].split("/")[-1] + "_rgb.png")
+        image_path = os.path.join(args.source_path, "golden_bay_4k_32x16_rot330/" + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
         #mask = image_rgba[..., 3:]
         #mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
