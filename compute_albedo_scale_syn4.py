@@ -83,7 +83,7 @@ if __name__ == '__main__':
         R = np.transpose(w2c[:3, :3])  # R is stored transposed due to 'glm' in CUDA code
         T = w2c[:3, 3]
 
-        albedo_path = os.path.join(args.source_path, 'golden_bay_4k_32x16_rot330',  frame["file_path"].split("/")[-1] + "_albedo.png")
+        albedo_path = os.path.join(args.source_path, frame["file_path"].split("/")[-1] + "_albedo.png")
         print('!!!! ', albedo_path)
         gt_albedo_np = load_img_rgb(albedo_path)
         mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
