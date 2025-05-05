@@ -107,8 +107,8 @@ if __name__ == '__main__':
         #print('!!! ', args.source_path)
         image_path = os.path.join(args.source_path, "golden_bay_4k_32x16_rot330/" + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
-        #mask = image_rgba[..., 3:]
-        #mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
+        mask = image_rgba[..., 3:]
+        mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
 
         match = find_matching_file(os.path.join(args.source_path, 'albedo'), frame["file_path"])
         albedo_path = os.path.join(args.source_path, "albedo/" + match)
@@ -131,9 +131,9 @@ if __name__ == '__main__':
         with torch.no_grad():
             render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
 
-        render_pkg['base_color_linear'] = render_pkg['base_color_linear']# * mask
+        render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
         #render_pkg['roughness'] = render_pkg['roughness'] * mask
-        gt_albedo = gt_albedo #* mask
+        gt_albedo = gt_albedo * mask
         #gt_roughness = gt_roughness * mask
         psnr_albedo += psnr(render_pkg['base_color_linear'], gt_albedo).mean().double().item()
         ssim_albedo += ssim(render_pkg['base_color_linear'], gt_albedo).mean().double().item()
