@@ -95,7 +95,9 @@ if __name__ == '__main__':
         w2c = np.linalg.inv(c2w)
         R = np.transpose(w2c[:3, :3])  # R is stored transposed due to 'glm' in CUDA code
         T = w2c[:3, 3]
-        
+
+        print('!!! ', args.source_path)
+
         image_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rgba.png")
         image_rgba = load_img_rgb(image_path)
         mask = image_rgba[..., 3:]
