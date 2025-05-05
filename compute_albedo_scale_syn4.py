@@ -71,6 +71,7 @@ if __name__ == '__main__':
     
     albedo_list = []
     albedo_gt_list = []
+    print('!!! len ', len(frames))
     for idx, frame in enumerate(tqdm(frames, leave=False)):
         # NeRF 'transform_matrix' is a camera-to-world transform
         c2w = np.array(frame["transform_matrix"])
