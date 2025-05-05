@@ -132,7 +132,7 @@ if __name__ == '__main__':
             render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
 
         render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
-        render_pkg['roughness'] = render_pkg['roughness'] * mask
+        #render_pkg['roughness'] = render_pkg['roughness'] * mask
         gt_albedo = gt_albedo #* mask
         #gt_roughness = gt_roughness * mask
         psnr_albedo += psnr(render_pkg['base_color_linear'], gt_albedo).mean().double().item()
@@ -150,7 +150,7 @@ if __name__ == '__main__':
     results_dict["ssim_albedo_avg"] = ssim_albedo
     results_dict["lpips_albedo_avg"] = lpips_albedo
     #results_dict["mse_roughness_avg"] = mse_roughness
-    print("\nEvaluating AVG: PSNR_ALBEDO {: .2f} SSIM_ALBEDO {: .3f} LPIPS_ALBEDO {: .3f}".format(psnr_albedo, ssim_albedo, lpips_albedo, mse_roughness))
+    print("\nEvaluating AVG: PSNR_ALBEDO {: .2f} SSIM_ALBEDO {: .3f} LPIPS_ALBEDO {: .3f}".format(psnr_albedo, ssim_albedo, lpips_albedo))
     with open(os.path.join(args.model_path, "material_results.json"), "w") as f:
         json.dump(results_dict, f, indent=4)
     print("Results saved to", os.path.join(args.model_path, "material_results.json"))
