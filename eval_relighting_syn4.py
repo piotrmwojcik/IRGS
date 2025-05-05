@@ -132,7 +132,7 @@ if __name__ == '__main__':
             
         envname = os.path.splitext(os.path.basename(task_dict[task_name]["envmap_path"]))[0]
         for idx, frame in enumerate(tqdm(frames, leave=False)):
-            image_path = os.path.join(args.source_path, "golden_bay_4k_32x16_rot330/"  +  frame["file_path"].split("/")[-1] + ".png")
+            image_path = os.path.join(args.source_path, "dam_wall_4k_32x16_rot90/"  +  frame["file_path"].split("/")[-1] + ".png")
             # NeRF 'transform_matrix' is a camera-to-world transform
             c2w = np.array(frame["transform_matrix"])
             # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)
