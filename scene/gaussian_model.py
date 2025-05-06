@@ -448,10 +448,11 @@ class GaussianModel:
                 env_dict["env2"].permute(2, 0, 1),
             ]
             hdr_tensor = grid[1]  # C, H, W
-            hdr_np = hdr_tensor.permute(1, 2, 0).cpu().numpy()  # H, W, C
-            hdr_path = save_path.replace(".pt", "_.hdr")  # or any preferred path
+            hdr_np = hdr_tensor.permute(1, 2, 0).cpu().numpy().astype(np.float32)  # H, W, C
 
-            iio.imwrite(hdr_path, hdr_np, format='HDR-FI')
+            # Save as HDR image using OpenCV
+            hdr_path = save_path.replace(".pt", "1.hdr")
+            cv2.imwrite(hdr_path, hdr_np)
             torch.save(self.env_map.capture(), save_path)
 
     def load_ply(self, path):
