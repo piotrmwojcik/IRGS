@@ -482,10 +482,14 @@ class GaussianModel:
             rots[:, idx] = np.asarray(plydata.elements[0][attr_name])
 
         map_path = path.replace('.ply', '1.map')
+        print('!! ', map_path)
         if os.path.exists(map_path):
+            print('exists')
             map_ckpt = torch.load(map_path)
             self.env_map = EnvLight(path=None, device='cuda', resolution=map_ckpt['state_dict']['base'].shape[:2]).cuda()
             self.env_map.restore(map_ckpt)
+        else:
+            print('not exists')
 
         self._xyz = nn.Parameter(torch.tensor(xyz, dtype=torch.float, device="cuda").requires_grad_(True))
         self._metallic = nn.Parameter(torch.tensor(metallic, dtype=torch.float, device="cuda").requires_grad_(True))   # #
