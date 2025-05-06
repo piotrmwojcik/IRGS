@@ -276,6 +276,7 @@ if __name__ == "__main__":
     parser.add_argument('--gui', action='store_true', default=False, help="use gui")
     args = parser.parse_args(sys.argv[1:])
     args.save_iterations.append(args.iterations)
+    args.save_iterations.append(1)
     args.test_iterations.append(args.iterations)
     args.checkpoint_iterations.append(args.iterations)
     args.save_iterations = args.save_iterations + [i for i in range(5000, args.iterations+1, 5000)]
