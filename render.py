@@ -95,6 +95,8 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
 
         env_dict = gaussians.render_env_map()
 
+        print('!!! keys ', env_dict.keys())
+
         grid = [
             env_dict["env1"].permute(2, 0, 1),
             env_dict["env2"].permute(2, 0, 1),
