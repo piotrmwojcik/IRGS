@@ -3,6 +3,7 @@ import numpy as np
 from utils.general_utils import inverse_sigmoid, get_expon_lr_func, build_rotation
 from torch import nn
 import os
+import cv2
 from utils.system_utils import mkdir_p
 from plyfile import PlyData, PlyElement
 # from scene.light import DirectLightMap as EnvLight
