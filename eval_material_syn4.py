@@ -105,7 +105,8 @@ if __name__ == '__main__':
         T = w2c[:3, 3]
 
         #print('!!! ', args.source_path)
-        image_path = os.path.join(args.source_path, "golden_bay_4k_32x16_rot330/" + frame["file_path"].split("/")[-1] + ".png")
+        subdir = os.environ.get("DATA_SUBDIR", "")
+        image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
         mask = image_rgba[..., 3:]
         mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
