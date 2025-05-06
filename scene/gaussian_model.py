@@ -7,6 +7,7 @@ from utils.system_utils import mkdir_p
 from plyfile import PlyData, PlyElement
 # from scene.light import DirectLightMap as EnvLight
 from scene.light import EnvLight
+import imageio.v3 as iio
 from utils.sh_utils import RGB2SH
 from simple_knn._C import distCUDA2
 from utils.graphics_utils import BasicPointCloud, rgb_to_srgb
@@ -439,6 +440,18 @@ class GaussianModel:
         
         if self.env_map is not None:
             save_path = path.replace('.ply', '1.map')
+            # TODO ugly fix  for env map loading
+            env_dict = gaussians.render_env_map()
+
+            grid = [
+                env_dict["env1"].permute(2, 0, 1),
+                env_dict["env2"].permute(2, 0, 1),
+            ]
+            hdr_tensor = grid[1]  # C, H, W
+            hdr_np = hdr_tensor.permute(1, 2, 0).cpu().numpy()  # H, W, C
+            hdr_path = save_path.replace(".pt", "_.hdr")  # or any preferred path
+
+            iio.imwrite(hdr_path, hdr_np, format='HDR-FI')
             torch.save(self.env_map.capture(), save_path)
 
     def load_ply(self, path):
