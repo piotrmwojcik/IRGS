@@ -453,7 +453,10 @@ class GaussianModel:
 
             # Save as HDR image using OpenCV
             hdr_path = save_path.replace(".pt", "1.hdr")
-            cv2.imwrite(hdr_path, hdr_np)
+            os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
+            # Save output HDR
+            cv2.imwrite(hdr_path, cv2.cvtColor(img_rotated, cv2.COLOR_RGB2BGR))
+            #cv2.imwrite(hdr_path, hdr_np)
             torch.save(self.env_map.capture(), save_path)
 
     def load_ply(self, path):
