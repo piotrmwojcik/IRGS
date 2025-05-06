@@ -11,6 +11,7 @@
 
 import numpy as np
 import torch
+from torchvision.utils import save_image, make_grid
 from scene import Scene
 import os
 from tqdm import tqdm
