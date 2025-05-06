@@ -455,7 +455,7 @@ class GaussianModel:
             hdr_path = save_path.replace(".pt", "1.hdr")
             os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
             # Save output HDR
-            cv2.imwrite(hdr_path, cv2.cvtColor(img_rotated, cv2.COLOR_RGB2BGR))
+            cv2.imwrite(hdr_path, cv2.cvtColor(hdr_np, cv2.COLOR_RGB2BGR))
             #cv2.imwrite(hdr_path, hdr_np)
             torch.save(self.env_map.capture(), save_path)
 
