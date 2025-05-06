@@ -441,7 +441,7 @@ class GaussianModel:
         if self.env_map is not None:
             save_path = path.replace('.ply', '1.map')
             # TODO ugly fix  for env map loading
-            env_dict = gaussians.render_env_map()
+            env_dict = self.render_env_map()
 
             grid = [
                 env_dict["env1"].permute(2, 0, 1),
