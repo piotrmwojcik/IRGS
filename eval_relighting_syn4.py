@@ -99,6 +99,7 @@ if __name__ == '__main__':
         task_dir = os.path.join(results_dir, task_name)
         os.makedirs(task_dir, exist_ok=True)
         gaussians.env_map = EnvLight(path=task_dict[task_name]["envmap_path"], device='cuda', max_res=1024, activation='none').cuda()
+
         gaussians.env_map.build_mips()
         gaussians.env_map.update_pdf()
         transform = torch.tensor([
