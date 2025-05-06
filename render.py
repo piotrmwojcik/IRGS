@@ -92,6 +92,16 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         bg_color = [1,1,1] if dataset.white_background else [0, 0, 0]
         background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
 
+        env_dict = gaussians.render_env_map_2()
+
+        grid = [
+            env_dict["env1"].permute(2, 0, 1),
+            env_dict["env2"].permute(2, 0, 1),
+        ]
+        grid = make_grid(grid, nrow=1, padding=10)
+        save_image(grid, os.path.join('outputs/s2_dam_wall_4k_32x16_rot90/irgs_hook150_v3_transl_statictimestep1/test/',
+                                      f"debug_env.png"))
+
         if not skip_train:
              render_set(dataset.model_path, "train", scene.loaded_iter, scene.getTrainCameras(), gaussians, pipeline, background)
 
