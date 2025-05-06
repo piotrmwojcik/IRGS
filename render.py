@@ -11,6 +11,7 @@
 
 import numpy as np
 import torch
+from scene.light import EnvLight
 from torchvision.utils import save_image, make_grid
 from scene import Scene
 import os
