@@ -94,21 +94,21 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         bg_color = [1,1,1] if dataset.white_background else [0, 0, 0]
         background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
 
-        gaussians.env_map = EnvLight(path='/home/pwojcik/IRGS/data/hook150_v3_transl_statictimestep1/dam_wall_4k_32x16_rot90.hdr',
-                                     device='cuda', max_res=1024,
-                                     activation='none').cuda()
+        #gaussians.env_map = EnvLight(path='/home/pwojcik/IRGS/data/hook150_v3_transl_statictimestep1/dam_wall_4k_32x16_rot90.hdr',
+        #                             device='cuda', max_res=1024,
+        #                             activation='none').cuda()
 
-        env_dict = gaussians.render_env_map()
+        #env_dict = gaussians.render_env_map()
 
-        print('!!! keys ', env_dict.keys())
+        #print('!!! keys ', env_dict.keys())
 
-        grid = [
-            env_dict["env1"].permute(2, 0, 1),
-            env_dict["env2"].permute(2, 0, 1),
-        ]
-        grid = make_grid(grid, nrow=1, padding=10)
-        save_image(grid, os.path.join('outputs/s2_dam_wall_4k_32x16_rot90/irgs_hook150_v3_transl_statictimestep1/test/',
-                                      f"debug_env.png"))
+        #grid = [
+        #    env_dict["env1"].permute(2, 0, 1),
+        #    env_dict["env2"].permute(2, 0, 1),
+        #]
+        #grid = make_grid(grid, nrow=1, padding=10)
+        #save_image(grid, os.path.join('outputs/s2_dam_wall_4k_32x16_rot90/irgs_hook150_v3_transl_statictimestep1/test/',
+        #                              f"debug_env.png"))
 
         if not skip_train:
              render_set(dataset.model_path, "train", scene.loaded_iter, scene.getTrainCameras(), gaussians, pipeline, background)
