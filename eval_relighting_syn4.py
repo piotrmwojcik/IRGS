@@ -68,7 +68,7 @@ if __name__ == '__main__':
     task_dict = {
         "env6": {
             "capture_list": ["render", "render_env"],
-            "envmap_path": "/home/pwojcik/IRGS/data/jumpingjacks150_v3_tex_statictimestep75/dam_wall_4k_32x16_rot90.hdr",
+            "envmap_path": "/home/pwojcik/IRGS/data/hook150_v3_transl_statictimestep1/golden_bay_4k_32x16_rot330.hdr",
         },
         #"env12": {
         #    "capture_list": ["render", "render_env"],
@@ -133,7 +133,7 @@ if __name__ == '__main__':
             
         envname = os.path.splitext(os.path.basename(task_dict[task_name]["envmap_path"]))[0]
         for idx, frame in enumerate(tqdm(frames, leave=False)):
-            image_path = os.path.join(args.source_path, "dam_wall_4k_32x16_rot90/" + frame["file_path"].split("/")[-1] + ".png")
+            image_path = os.path.join(args.source_path, "golden_bay_4k_32x16_rot330/" + frame["file_path"].split("/")[-1] + ".png")
             # NeRF 'transform_matrix' is a camera-to-world transform
             c2w = np.array(frame["transform_matrix"])
             # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)
