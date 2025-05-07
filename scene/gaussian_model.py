@@ -502,10 +502,8 @@ class GaussianModel:
         for idx, attr_name in enumerate(rot_names):
             rots[:, idx] = np.asarray(plydata.elements[0][attr_name])
 
-        map_path = path.replace('.ply', '1.exr')
-        print('!! ', map_path)
+        map_path = path.replace('.ply', '1.map')
         if os.path.exists(map_path):
-            print('exists')
             map_ckpt = torch.load(map_path)
             self.env_map = EnvLight(path=None, device='cuda', resolution=map_ckpt['state_dict']['base'].shape[:2]).cuda()
             self.env_map.restore(map_ckpt)
