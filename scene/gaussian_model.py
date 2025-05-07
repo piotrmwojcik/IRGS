@@ -455,7 +455,7 @@ class GaussianModel:
 
             # Save as HDR image using OpenCV
             hdr_path = save_path.replace(".pt", "1.exr")
-            print('!!! ', cv2.getBuildInformation())
+            print('!!! ', hdr_path, save_path)
 
             # Save output HDR
             cv2.imwrite(hdr_path, cv2.cvtColor(hdr_np, cv2.COLOR_RGB2BGR))
