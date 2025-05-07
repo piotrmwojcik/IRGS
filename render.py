@@ -94,9 +94,10 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         bg_color = [1,1,1] if dataset.white_background else [0, 0, 0]
         background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
 
-        #gaussians.env_map = EnvLight(path='/home/pwojcik/IRGS/data/hook150_v3_transl_statictimestep1/dam_wall_4k_32x16_rot90.hdr',
-        #                             device='cuda', max_res=1024,
-        #                             activation='none').cuda()
+        map_path = path.replace('.ply', '1.exr')
+        gaussians.env_map = EnvLight(path=map_path,
+                                     device='cuda', max_res=1024,
+                                     activation=gaussians.env_map.activation_name).cuda()
 
         #env_dict = gaussians.render_env_map()
 
