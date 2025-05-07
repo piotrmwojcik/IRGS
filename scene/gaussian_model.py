@@ -454,7 +454,7 @@ class GaussianModel:
             hdr_np = hdr_tensor.permute(1, 2, 0).cpu().numpy().astype(np.float32)  # H, W, C
 
             # Save as HDR image using OpenCV
-            hdr_path = save_path.replace(".pt", "1.exr")
+            hdr_path = path.replace(".ply", "1.exr")
             print('!!! ', hdr_path, save_path)
 
             # Save output HDR
