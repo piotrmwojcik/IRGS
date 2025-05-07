@@ -17,6 +17,8 @@ from surfel_tracer import GaussianTracer
 import trimesh
 from utils.system_utils import Timing
 
+os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
+
 def get_env_direction1(H, W):
     gy, gx = torch.meshgrid(torch.linspace(0.0 + 0.5 / H, 1.0 - 0.5 / H, H, device='cuda'), 
                             torch.linspace(-1.0 + 1.0 / W, 1.0 - 1.0 / W, W, device='cuda'),
@@ -454,7 +456,7 @@ class GaussianModel:
             # Save as HDR image using OpenCV
             hdr_path = save_path.replace(".pt", "1.exr")
             print('!!! ', cv2.getBuildInformation())
-            os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
+
             # Save output HDR
             cv2.imwrite(hdr_path, cv2.cvtColor(hdr_np, cv2.COLOR_RGB2BGR))
             #cv2.imwrite(hdr_path, hdr_np)
