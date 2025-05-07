@@ -95,7 +95,7 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
         map_path = os.path.join(dataset.model_path,
                      "point_cloud",
-                     "iteration_" + str(iteration),
+                     "iteration_" + str(scene.loaded_iter),
                      "point_cloud1.exr")
         gaussians.env_map = EnvLight(path=map_path,
                                      device='cuda', max_res=1024,
