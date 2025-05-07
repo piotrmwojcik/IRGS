@@ -98,6 +98,7 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         gaussians.env_map = EnvLight(path=map_path,
                                      device='cuda', max_res=1024,
                                      activation=gaussians.env_map.activation_name).cuda()
+        gaussians.env_map.set_transform(transform)
 
         #env_dict = gaussians.render_env_map()
 
