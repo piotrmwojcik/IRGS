@@ -1,9 +1,9 @@
 for SCENE in \
-    hook150_v3_transl_statictimestep1 \
-    jumpingjacks150_v3_tex_statictimestep75 \
-    mouse150_v2_transl_statictimestep1 \
+    hook150_v4_spec_statictimestep1 \
+    jumpingjacks150_v34_spec_statictimestep75 \
+    mouse150_v3_spec_statictimestep1 \
     spheres_cube_dataset_v7_spec_statictimestep1 \
-    standup150_v3_statictimestep75
+    standup150_v4_spec_statictimestep75
 do
     for DATA_SUBDIR in \
         chapel_day_4k_1024x512_rot0 \
