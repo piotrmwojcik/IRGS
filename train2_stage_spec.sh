@@ -6,8 +6,8 @@ for SCENE in \
     standup150_v3_statictimestep75
 do
     for DATA_SUBDIR in \
-        chapel_day_4k_32x16_rot0 \
-        dam_wall_4k_32x16_rot90 \
+        chapel_day_4k_1024x512_rot0 \
+        dam_wall_4k_1024x512_rot90 \
         golden_bay_4k_32x16_rot330
     do
         export DATA_SUBDIR
