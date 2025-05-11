@@ -15,12 +15,13 @@ do
       read DATA_SUBDIR MAP_PATH <<< "$pair"
       MAP_PATH="/home/pwojcik/IRGS/data/$SCENE/$MAP_PATH.hdr"
       echo "Running with DATA_SUBDIR=$DATA_SUBDIR and SCENE=$SCENE"
-
+      export MAP_PATH
+      export SCENE
        #export DATA_SUBDIR
       echo "Processing SCENE: $SCENE with DATA_SUBDIR: $DATA_SUBDIR and with $MAP_PATH"
 
-      #CUDA_VISIBLE_DEVICES=0 CUDA_VISIBLE_DEVICES=0 python eval_material_syn4.py -m \
-      #  outputs/s2_${DATA_SUBDIR}/irgs_$SCENE --albedo_rescale 2 --resolution 2
+      CUDA_VISIBLE_DEVICES=0 python eval_relighting_syn4.py -m outputs/s2_${DATA_SUBDIR}/irgs_$SCENE \
+        --diffuse_sample_num 512 --light_sample_num 256 --albedo_rescale 2 -e light
 
     done
 done

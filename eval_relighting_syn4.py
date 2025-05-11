@@ -65,13 +65,13 @@ if __name__ == '__main__':
     fovx = contents["camera_angle_x"]
     frames = contents["frames"]
 
-    eval_to = os.environ.get("EVAL_TO", "")
-    scene_path = os.environ.get("MAP_PATH", "")
+    #eval_to = os.environ.get("EVAL_TO", "")
+    map_path = os.environ.get("MAP_PATH", "")
 
     task_dict = {
         "env6": {
             "capture_list": ["render", "render_env"],
-            "envmap_path": scene_path,
+            "envmap_path": map_path,
         },
         #"env12": {
         #    "capture_list": ["render", "render_env"],
