@@ -165,6 +165,7 @@ if __name__ == '__main__':
             
             H = image.shape[0]
             W = image.shape[1]
+            print('!!!!! H W', H, W)
             fovy = focal2fov(fov2focal(fovx, W), H)
 
             custom_cam = Camera(colmap_id=0, R=R, T=T,
