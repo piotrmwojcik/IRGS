@@ -17,6 +17,7 @@ do
       echo "Running with DATA_SUBDIR=$DATA_SUBDIR and SCENE=$SCENE"
       export MAP_PATH
       export SCENE
+      export DATA_SUBDIR
        #export DATA_SUBDIR
       echo "Processing SCENE: $SCENE with DATA_SUBDIR: $DATA_SUBDIR and with $MAP_PATH"
 
