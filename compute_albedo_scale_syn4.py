@@ -100,6 +100,7 @@ if __name__ == '__main__':
         from PIL import Image
         gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match))
         gt_albedo_np = srgb_to_rgb(gt_albedo_np)
+        print(gt_albedo_np)
         #img_pil = Image.fromarray((gt_albedo_np * 255).astype(np.uint8))  # if in [0, 1] float
         #new_size = (int(img_pil.width * scale_factor), int(img_pil.height * scale_factor))
         #img_pil = img_pil.resize(new_size, Image.BICUBIC)
