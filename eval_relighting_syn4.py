@@ -91,7 +91,7 @@ if __name__ == '__main__':
     bg = 1 if dataset.white_background else 0
     background = torch.tensor([bg, bg, bg], dtype=torch.float32, device="cuda")
     
-    results_dir = os.path.join(args.model_path, f"test_rli_${map_name}" + (f"_{args.extra}" if len(args.extra)>0 else ""))
+    results_dir = os.path.join(args.model_path, f"test_rli_{map_name}" + (f"_{args.extra}" if len(args.extra)>0 else ""))
     os.makedirs(results_dir, exist_ok=True)
     full_cmd = f"python {' '.join(sys.argv)}"
     print("Command: " + full_cmd)
