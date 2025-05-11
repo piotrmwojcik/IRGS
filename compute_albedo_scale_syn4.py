@@ -102,6 +102,7 @@ if __name__ == '__main__':
         mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         # Resize to 400x400 using bilinear interpolation
         import torch.nn.functional as F
+        print('!!! ', mask.shape)
         mask_resized = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False)
         gt_albedo_np = srgb_to_rgb(gt_albedo_np)
         #print(gt_albedo_np)
