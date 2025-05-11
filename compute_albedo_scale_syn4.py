@@ -123,6 +123,7 @@ if __name__ == '__main__':
         #print('!!! albedo', gt_albedo_np.shape)
         #print(mask)
         #gt_albedo = gt_albedo.permute(2, 0, 1)
+        gt_albedo = gt_albedo.permute(1, 2, 0)
         print('!!!! ', gt_albedo.shape, mask[0].shape)
         #gt_albedo = (torch.from_numpy(gt_albedo).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
 
