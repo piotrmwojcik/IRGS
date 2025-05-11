@@ -113,16 +113,9 @@ if __name__ == '__main__':
         # Interpolate to [1, 1, 400, 400]
         mask = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False)[0]
         # Remove batch dimension: [1, 400, 400]
-        #print('mask !!! ', mask.shape)
-        #gt_albedo_np = srgb_to_rgb(gt_albedo_np)
-        #print(gt_albedo_np)
         gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
                                   align_corners=False).squeeze(0)
-        gt_albedo /= 255.0  # normalize to [
-        #gt_albedo_np = rgb_to_srgb(gt_albedo_np[..., :3])  # convert only RGB to linear
-        #print('!!! albedo', gt_albedo_np.shape)
-        #print(mask)
-        #gt_albedo = gt_albedo.permute(2, 0, 1)
+        #gt_albedo /= 255.0  # normalize to [
         gt_albedo = gt_albedo.permute(1, 2, 0)
         print('!!!! ', gt_albedo.shape, mask[0].shape)
         #gt_albedo = (torch.from_numpy(gt_albedo).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
