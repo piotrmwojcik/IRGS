@@ -109,7 +109,7 @@ if __name__ == '__main__':
         mask_resized = F.interpolate(mask, size=(400, 400), mode='bilinear', align_corners=False)
 
         # Remove batch dimension: [1, 400, 400]
-        mask = mask_resized.squeeze(0)
+        mask = mask_resized[0]
         gt_albedo_np = srgb_to_rgb(gt_albedo_np)
         #print(gt_albedo_np)
         img_pil = Image.fromarray((gt_albedo_np * 255).astype(np.uint8))  # Convert to uint8 image
