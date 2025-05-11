@@ -113,6 +113,7 @@ if __name__ == '__main__':
 
         match = find_matching_file(os.path.join(args.source_path, 'albedo'), frame["file_path"])
         albedo_path = os.path.join(args.source_path, "albedo/" + match)
+        from PIL import Image
         gt_albedo_np = load_img_rgb(albedo_path)
         mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         # Resize to 400x400 using bilinear interpolation
