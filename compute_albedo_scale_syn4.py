@@ -96,6 +96,7 @@ if __name__ == '__main__':
         albedo_path = match
         #print('!!!! ', albedo_path)
         gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match))
+        print('!!! ', gt_albedo_np.shape)
         mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         gt_albedo = torch.from_numpy(gt_albedo_np[..., :3] * gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         
