@@ -118,7 +118,7 @@ if __name__ == '__main__':
                                   align_corners=False).squeeze(0)
         #gt_albedo /= 255.0  # normalize to [
         gt_albedo = gt_albedo.permute(1, 2, 0)
-        print('!!!! ', torch.max(gt_albedo), torch.max(mask))
+        #print('!!!! ', torch.max(gt_albedo), torch.max(mask))
         #gt_albedo = (torch.from_numpy(gt_albedo).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
 
         H = mask.shape[1]
