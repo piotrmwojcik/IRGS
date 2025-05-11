@@ -74,6 +74,7 @@ if __name__ == '__main__':
 
     #eval_to = os.environ.get("EVAL_TO", "")
     map_path = os.environ.get("MAP_PATH", "")
+    map_name = os.environ.get("MAP_NAME", "")
 
     task_dict = {
         "env6": {
@@ -90,7 +91,7 @@ if __name__ == '__main__':
     bg = 1 if dataset.white_background else 0
     background = torch.tensor([bg, bg, bg], dtype=torch.float32, device="cuda")
     
-    results_dir = os.path.join(args.model_path, "test_rli" + (f"_{args.extra}" if len(args.extra)>0 else ""))
+    results_dir = os.path.join(args.model_path, f"test_rli_${map_name}" + (f"_{args.extra}" if len(args.extra)>0 else ""))
     os.makedirs(results_dir, exist_ok=True)
     full_cmd = f"python {' '.join(sys.argv)}"
     print("Command: " + full_cmd)
@@ -143,8 +144,8 @@ if __name__ == '__main__':
             
         envname = os.path.splitext(os.path.basename(task_dict[task_name]["envmap_path"]))[0]
         for idx, frame in enumerate(tqdm(frames, leave=False)):
-            subdir = os.environ.get("DATA_SUBDIR", "")
-            image_path = os.path.join(args.source_path, subdir, frame["file_path"].split("/")[-1] + ".png")
+            mapname = os.environ.get("MAP_NAME", "")
+            image_path = os.path.join(args.source_path, mapname, frame["file_path"].split("/")[-1] + ".png")
             #print('!!! ', image_path)
             # NeRF 'transform_matrix' is a camera-to-world transform
             c2w = np.array(frame["transform_matrix"])
