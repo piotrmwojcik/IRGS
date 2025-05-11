@@ -110,7 +110,7 @@ if __name__ == '__main__':
         #print('mask !!! ', mask.shape)
         #gt_albedo_np = srgb_to_rgb(gt_albedo_np)
         #print(gt_albedo_np)
-        img_pil = Image.fromarray((gt_albedo_np * 255).astype(np.uint8))  # Convert to uint8 image
+        img_pil = Image.fromarray((gt_albedo_np[..., :3] * 255).astype(np.uint8))  # Convert to uint8 image
         # Resize
         new_size = (int(img_pil.width * scale_factor), int(img_pil.height * scale_factor))
         img_pil = img_pil.resize(new_size, Image.BILINEAR)
@@ -118,7 +118,7 @@ if __name__ == '__main__':
         gt_albedo_np = np.array(img_pil) / 255.0  # shape: (H, W, 4)
         #gt_albedo_np = rgb_to_srgb(gt_albedo_np[..., :3])  # convert only RGB to linear
         print('!!! albedo', gt_albedo_np.shape)
-        gt_albedo = torch.from_numpy(gt_albedo_np[..., :3] * gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
+        gt_albedo = torch.from_numpy(gt_albedo_np * mask).permute(2, 0, 1).float().cuda()
 
         H = mask.shape[1]
         W = mask.shape[2]
