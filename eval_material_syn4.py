@@ -113,21 +113,21 @@ if __name__ == '__main__':
         albedo_path = os.path.join(args.source_path, "albedo/" + match)
         from PIL import Image
         gt_albedo_np = load_img_rgb(albedo_path)
+        gt_albedo = torch.from_numpy(gt_albedo_np)[..., :3].cuda().permute(2, 0, 1)
+        image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
+        image_rgba = load_img_rgb(image_path)
+        print('loaded ', gt_albedo_np.shape, image_rgba.shape)
         mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).float().cuda()
-        # Resize to 400x400 using bilinear interpolation
         import torch.nn.functional as F
-        mask = mask.unsqueeze(0)
-        mask_resized = F.interpolate(mask, size=(400, 400), mode='bilinear', align_corners=False)
-        mask = mask_resized[0]
-        img_pil = Image.fromarray((gt_albedo_np * 255).astype(np.uint8))  # Convert to uint8 image
-        # Resize
-        scale_factor = 0.5
-        new_size = (int(img_pil.width * scale_factor), int(img_pil.height * scale_factor))
-        img_pil = img_pil.resize(new_size, Image.BILINEAR)
-        # Convert back to NumPy and normalize
-        gt_albedo_np = np.array(img_pil) / 255.0
+        # Interpolate to [1, 1, 400, 400]
+        print('before interpolate ', mask.shape, gt_albedo.shape)
+        mask = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False).squeeze(0)
+        # Remove batch dimension: [1, 400, 400]
+        gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
+                                  align_corners=False).squeeze(0)
 
-        gt_albedo = torch.from_numpy(gt_albedo_np[..., :3] * gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
+        print('!!!! ', mask.shape, gt_albedo.shape)
+
         gt_albedo = srgb_to_rgb(gt_albedo)
 
         #roughness_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rough.png")
