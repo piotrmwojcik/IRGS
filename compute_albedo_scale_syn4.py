@@ -138,8 +138,10 @@ if __name__ == '__main__':
     albedo_ours = torch.cat(albedo_list, dim=0)
     albedo_scale_json = {}
     albedo_scale_json["0"] = [1.0, 1.0, 1.0]
+
     albedo_scale_json["1"] = [(albedo_gts/albedo_ours.clamp_min(1e-6))[..., 0].median().item()] * 3
     albedo_scale_json["2"] = (albedo_gts/albedo_ours.clamp_min(1e-6)).median(dim=0).values.tolist()
+    print(albedo_gts, albedo_ours)
     albedo_scale_json["3"] = (albedo_gts/albedo_ours.clamp_min(1e-6)).mean(dim=0).tolist()
     print("Albedo scales:\n", albedo_scale_json)
         
