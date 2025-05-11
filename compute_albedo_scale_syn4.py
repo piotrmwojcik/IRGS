@@ -114,7 +114,7 @@ if __name__ == '__main__':
         #print('mask !!! ', mask.shape)
         #gt_albedo_np = srgb_to_rgb(gt_albedo_np)
         #print(gt_albedo_np)
-        gt_albedo = F.interpolate(torch.from_numpy(gt_albedo_np).unsqueeze(0), size=target_size, mode='bilinear',
+        gt_albedo = F.interpolate(torch.from_numpy(gt_albedo_np).unsqueeze(0), size=(400, 400), mode='bilinear',
                                   align_corners=False).squeeze(0)
         gt_albedo /= 255.0  # normalize to [
         #gt_albedo_np = rgb_to_srgb(gt_albedo_np[..., :3])  # convert only RGB to linear
