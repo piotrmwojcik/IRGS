@@ -125,6 +125,7 @@ if __name__ == '__main__':
         mask = mask_resized[0]
         img_pil = Image.fromarray((gt_albedo_np * 255).astype(np.uint8))  # Convert to uint8 image
         # Resize
+        scale_factor = 0.5
         new_size = (int(img_pil.width * scale_factor), int(img_pil.height * scale_factor))
         img_pil = img_pil.resize(new_size, Image.BILINEAR)
         # Convert back to NumPy and normalize
