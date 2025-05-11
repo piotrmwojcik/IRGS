@@ -118,7 +118,7 @@ if __name__ == '__main__':
         gt_albedo_np = np.array(img_pil) / 255.0  # shape: (H, W, 4)
         #gt_albedo_np = rgb_to_srgb(gt_albedo_np[..., :3])  # convert only RGB to linear
         print('!!! albedo', gt_albedo_np.shape)
-        gt_albedo = torch.from_numpy(gt_albedo_np * mask).permute(2, 0, 1).float().cuda()
+        gt_albedo = torch.from_numpy(torch.from_numpy(gt_albedo_np) * mask).permute(2, 0, 1).float().cuda()
 
         H = mask.shape[1]
         W = mask.shape[2]
