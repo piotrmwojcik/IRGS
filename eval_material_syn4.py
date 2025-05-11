@@ -117,9 +117,7 @@ if __name__ == '__main__':
         # Resize to 400x400 using bilinear interpolation
         import torch.nn.functional as F
         mask = mask.unsqueeze(0)
-        # Interpolate to [1, 1, 400, 400]
         mask_resized = F.interpolate(mask, size=(400, 400), mode='bilinear', align_corners=False)
-        # Remove batch dimension: [1, 400, 400]
         mask = mask_resized[0]
         img_pil = Image.fromarray((gt_albedo_np * 255).astype(np.uint8))  # Convert to uint8 image
         # Resize

@@ -157,8 +157,23 @@ if __name__ == '__main__':
             T = w2c[:3, 3]
 
             image_rgba = load_img_rgb(image_path)
+            from PIL import Image
+
             image = image_rgba[..., :3]
             mask = image_rgba[..., 3:]
+
+            img_pil = Image.fromarray((image * 255).astype(np.uint8))  # Convert to uint8 image
+            # Resize
+            scale_factor = 0.5
+            new_size = (int(img_pil.width * scale_factor), int(img_pil.height * scale_factor))
+            img_pil = img_pil.resize(new_size, Image.BILINEAR)
+            # Convert back to NumPy and normalize
+            image = np.array(img_pil) / 255.0
+
+            mask = mask.unsqueeze(0)
+            mask_resized = F.interpolate(mask, size=(400, 400), mode='bilinear', align_corners=False)
+            mask = mask_resized[0]
+
             gt_image = torch.from_numpy(image).permute(2, 0, 1).float().cuda()
             mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
             gt_image = gt_image * mask
