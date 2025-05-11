@@ -117,7 +117,6 @@ if __name__ == '__main__':
         gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
                                   align_corners=False).squeeze(0)
         #gt_albedo /= 255.0  # normalize to [
-        gt_albedo = gt_albedo.permute(1, 2, 0)
         #print('!!!! ', torch.max(gt_albedo), torch.max(mask))
         #gt_albedo = (torch.from_numpy(gt_albedo).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
 
@@ -132,7 +131,9 @@ if __name__ == '__main__':
         with torch.no_grad():
             render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
 
-        albedo_gt_list.append(srgb_to_rgb(gt_albedo.cuda())[mask[0] > 0])
+        print('!!!! ', gt_albedo.shape, render_pkg['base_color_linear'].shape)
+
+        albedo_gt_list.append(srgb_to_rgb(gt_albedo.permute(1, 2, 0).cuda())[mask[0] > 0])
         albedo_list.append(render_pkg['base_color_linear'].permute(1, 2, 0)[mask[0] > 0])
         
     albedo_gts = torch.cat(albedo_gt_list, dim=0)
