@@ -108,7 +108,6 @@ if __name__ == '__main__':
         #print('mask !!!!!!', mask, mask.max().item(), mask.min().item())
         # Resize to 400x400 using bilinear interpolation
         import torch.nn.functional as F
-        mask = mask.unsqueeze(0)
         # Interpolate to [1, 1, 400, 400]
         mask_resized = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False).squeeze()
         # Remove batch dimension: [1, 400, 400]
