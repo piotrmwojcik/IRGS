@@ -120,7 +120,7 @@ if __name__ == '__main__':
         gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
                                   align_corners=False).squeeze(0)
 
-        save_image(gt_albedo * mask, os.path.join(args.model_path, 'maked_albedo.png'))
+        save_image(gt_albedo * mask, os.path.join(args.model_path, 'masked_albedo.png'))
         #gt_albedo /= 255.0  # normalize to [
         #print('!!!! ', torch.max(gt_albedo), torch.max(mask))
         #gt_albedo = (torch.from_numpy(gt_albedo).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
