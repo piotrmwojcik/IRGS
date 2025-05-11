@@ -116,7 +116,7 @@ if __name__ == '__main__':
         gt_albedo = torch.from_numpy(gt_albedo_np)[..., :3].cuda().permute(2, 0, 1)
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         print('loaded ', gt_albedo_np.shape, image_rgba.shape)
-        mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).double().cuda()
+        mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).float().cuda()
         import torch.nn.functional as F
         # Interpolate to [1, 1, 400, 400]
         print('before interpolate ', mask.shape, gt_albedo.shape)
