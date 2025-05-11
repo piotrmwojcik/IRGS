@@ -126,7 +126,7 @@ if __name__ == '__main__':
                                   align_corners=False).squeeze(0)
 
         gt_albedo = srgb_to_rgb(gt_albedo)
-        gt_albedo = gt_albedo.permute(1, 2, 0)
+        #gt_albedo = gt_albedo.permute(1, 2, 0)
         #mask = mask.permute(1, 2, 0)
 
         #roughness_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rough.png")
