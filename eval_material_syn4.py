@@ -133,8 +133,8 @@ if __name__ == '__main__':
         #gt_roughness_np = load_img_rgb(roughness_path)
         #gt_roughness = torch.from_numpy(gt_roughness_np[..., :3] * gt_roughness_np[..., 3:4]).permute(2, 0, 1).float().cuda()
 
-        H = gt_albedo.shape[1]
-        W = gt_albedo.shape[2]
+        H = gt_albedo.shape[0]
+        W = gt_albedo.shape[1]
         fovy = focal2fov(fov2focal(fovx, W), H)
 
         custom_cam = Camera(colmap_id=0, R=R, T=T,
