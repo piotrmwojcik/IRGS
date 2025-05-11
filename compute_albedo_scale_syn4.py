@@ -117,7 +117,8 @@ if __name__ == '__main__':
         # Convert back to NumPy and normalize
         gt_albedo_np = np.array(img_pil) / 255.0  # shape: (H, W, 4)
         #gt_albedo_np = rgb_to_srgb(gt_albedo_np[..., :3])  # convert only RGB to linear
-        print('!!! albedo', gt_albedo_np.shape)
+        #print('!!! albedo', gt_albedo_np.shape)
+        print('!!!! ', gt_albedo_np.shape, mask.shape)
         gt_albedo = torch.from_numpy(torch.from_numpy(gt_albedo_np) * mask).permute(2, 0, 1).float().cuda()
 
         H = mask.shape[1]
@@ -141,8 +142,8 @@ if __name__ == '__main__':
 
     albedo_scale_json["1"] = [(albedo_gts/albedo_ours.clamp_min(1e-6))[..., 0].median().item()] * 3
     albedo_scale_json["2"] = (albedo_gts/albedo_ours.clamp_min(1e-6)).median(dim=0).values.tolist()
-    print(torch.min(albedo_gts), torch.max(albedo_gts), torch.min(albedo_ours), torch.max(albedo_ours),
-          albedo_ours.clamp_min(1e-6).median(dim=0).values, (albedo_ours < 1e-6).sum())
+    ##print(torch.min(albedo_gts), torch.max(albedo_gts), torch.min(albedo_ours), torch.max(albedo_ours),
+    #     albedo_ours.clamp_min(1e-6).median(dim=0).values, (albedo_ours < 1e-6).sum())
     albedo_scale_json["3"] = (albedo_gts/albedo_ours.clamp_min(1e-6)).mean(dim=0).tolist()
     print("Albedo scales:\n", albedo_scale_json)
         
