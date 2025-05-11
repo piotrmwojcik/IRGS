@@ -113,7 +113,7 @@ if __name__ == '__main__':
         albedo_path = os.path.join(args.source_path, "albedo/" + match)
         from PIL import Image
         gt_albedo_np = load_img_rgb(albedo_path)
-        gt_albedo = torch.from_numpy(gt_albedo_np)[..., :3].cuda().permute(2, 0, 1)
+        gt_albedo = torch.from_numpy(gt_albedo_np)[..., :3].cuda().float().permute(2, 0, 1)
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         print('loaded ', gt_albedo_np.shape, image_rgba.shape)
         mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).float().cuda()
