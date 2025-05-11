@@ -144,4 +144,5 @@ if __name__ == '__main__':
     print("Albedo scales:\n", albedo_scale_json)
         
     with open(os.path.join(args.model_path, "albedo_scale.json"), "w") as f:
+        print('model_path',args.model_path)
         json.dump(albedo_scale_json, f)
