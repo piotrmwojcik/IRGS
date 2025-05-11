@@ -112,10 +112,15 @@ if __name__ == '__main__':
         import torch.nn.functional as F
         # Interpolate to [1, 1, 400, 400]
         #print('before interpolate ', mask.shape, gt_albedo.shape)
+
+        from torchvision.utils import save_image
+
         mask = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False).squeeze(0)
         # Remove batch dimension: [1, 400, 400]
         gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
                                   align_corners=False).squeeze(0)
+
+        save_image(gt_albedo * mask, os.path.join(args.model_path, 'maked_albedo.png'))
         #gt_albedo /= 255.0  # normalize to [
         #print('!!!! ', torch.max(gt_albedo), torch.max(mask))
         #gt_albedo = (torch.from_numpy(gt_albedo).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
