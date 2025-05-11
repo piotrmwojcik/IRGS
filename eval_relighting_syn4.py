@@ -161,7 +161,16 @@ if __name__ == '__main__':
             from PIL import Image
 
             image = image_rgba[..., :3]
-            mask = image_rgba[..., 3:]
+            mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).float().cuda()
+            # print('mask !!!!!!', mask, mask.max().item(), mask.min().item())
+            # Resize to 400x400 using bilinear interpolation
+            import torch.nn.functional as F
+
+            # Interpolate to [1, 1, 400, 400]
+            mask = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False).squeeze(0)
+            # Remove batch dimension: [1, 400, 400]
+            gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
+                                      align_corners=False).squeeze(0)
             import torch.nn.functional as F
             mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
             img_pil = Image.fromarray((image * 255).astype(np.uint8))  # Convert to uint8 image
@@ -172,12 +181,7 @@ if __name__ == '__main__':
             # Convert back to NumPy and normalize
             image = np.array(img_pil) / 255.0
 
-            mask = mask.unsqueeze(0)
-            mask_resized = F.interpolate(mask, size=(400, 400), mode='bilinear', align_corners=False)
-            mask = mask_resized[0]
-
             gt_image = torch.from_numpy(image).permute(2, 0, 1).float().cuda()
-
             gt_image = gt_image * mask
             
             H = image.shape[0]
