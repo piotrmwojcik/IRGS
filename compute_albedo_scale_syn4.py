@@ -121,7 +121,7 @@ if __name__ == '__main__':
         #gt_albedo_np = rgb_to_srgb(gt_albedo_np[..., :3])  # convert only RGB to linear
         #print('!!! albedo', gt_albedo_np.shape)
         #print(mask)
-        #print('!!!! ', gt_albedo_np.shape, mask.permute(1, 2, 0).shape)
+        print('!!!! ', gt_albedo.shape, mask.shape)
         #gt_albedo = (torch.from_numpy(gt_albedo).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
 
         H = mask.shape[1]
@@ -135,7 +135,6 @@ if __name__ == '__main__':
         with torch.no_grad():
             render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
 
-        print('!!!!! ', gt_albedo.shape)
         albedo_gt_list.append(srgb_to_rgb(gt_albedo.cuda())[mask[0] > 0])
         albedo_list.append(render_pkg['base_color_linear'].permute(1, 2, 0)[mask[0] > 0])
         
