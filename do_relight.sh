@@ -13,7 +13,7 @@ do
 
     for pair in "${pairs[@]}"; do
       read DATA_SUBDIR MAP_PATH <<< "$pair"
-      MAP_PATH="/home/pwojcik/IRGS/data/SCENE/$MAP_PATH"
+      MAP_PATH="/home/pwojcik/IRGS/data/SCENE/$MAP_PATH.hdr"
       echo "Running with DATA_SUBDIR=$DATA_SUBDIR and SCENE=$SCENE"
 
        #export DATA_SUBDIR
