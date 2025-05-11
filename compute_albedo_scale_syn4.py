@@ -122,7 +122,7 @@ if __name__ == '__main__':
         #gt_albedo_np = rgb_to_srgb(gt_albedo_np[..., :3])  # convert only RGB to linear
         #print('!!! albedo', gt_albedo_np.shape)
         #print(mask)
-        gt_albedo = gt_albedo.permute(2, 0, 1)
+        #gt_albedo = gt_albedo.permute(2, 0, 1)
         print('!!!! ', gt_albedo.shape, mask.shape)
         #gt_albedo = (torch.from_numpy(gt_albedo).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
 
