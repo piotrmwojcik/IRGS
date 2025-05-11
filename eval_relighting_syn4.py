@@ -32,6 +32,13 @@ def load_json_config(json_file):
     return load_dict
 
 
+def find_matching_file(folder, prefix_file):
+    prefix = os.path.splitext(prefix_file)[0]  # 'r_0010' from 'r_0010.png'
+    for f in os.listdir(folder):
+        if f.startswith(prefix) and f.endswith('.png') and f != prefix_file:
+            return f
+    return None
+
 if __name__ == '__main__':
     # Set up command line argument parser
     parser = ArgumentParser(description="Composition and Relighting for Relightable 3D Gaussian")
