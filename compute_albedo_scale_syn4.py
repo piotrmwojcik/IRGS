@@ -100,7 +100,7 @@ if __name__ == '__main__':
         from PIL import Image
 
         subdir = os.environ.get("DATA_SUBDIR", "")
-        gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match))
+        gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match)).permute(1, 2, 0)
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
         mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).float().cuda()
@@ -135,7 +135,7 @@ if __name__ == '__main__':
             render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
 
         print('!!!!! ', gt_albedo.shape)
-        albedo_gt_list.append(srgb_to_rgb(gt_albedo.cuda()).permute(1, 2, 0)[mask[0] > 0])
+        albedo_gt_list.append(srgb_to_rgb(gt_albedo.cuda())[mask[0] > 0])
         albedo_list.append(render_pkg['base_color_linear'].permute(1, 2, 0)[mask[0] > 0])
         
     albedo_gts = torch.cat(albedo_gt_list, dim=0)
