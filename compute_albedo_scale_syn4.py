@@ -111,14 +111,14 @@ if __name__ == '__main__':
         # Resize to 400x400 using bilinear interpolation
         import torch.nn.functional as F
         # Interpolate to [1, 1, 400, 400]
-        print('before interpolate ', mask.shape)
+        #print('before interpolate ', mask.shape)
         mask = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False).squeeze(0)
         # Remove batch dimension: [1, 400, 400]
         gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
                                   align_corners=False).squeeze(0)
         #gt_albedo /= 255.0  # normalize to [
         gt_albedo = gt_albedo.permute(1, 2, 0)
-        #print('!!!! ', gt_albedo.shape, mask[0].shape)
+        print('!!!! ', torch.max(gt_albedo), torch.max(mask))
         #gt_albedo = (torch.from_numpy(gt_albedo).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
 
         H = mask.shape[1]
