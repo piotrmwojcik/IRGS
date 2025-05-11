@@ -145,6 +145,7 @@ if __name__ == '__main__':
         for idx, frame in enumerate(tqdm(frames, leave=False)):
             subdir = os.environ.get("DATA_SUBDIR", "")
             image_path = os.path.join(args.source_path, subdir + frame["file_path"].split("/")[-1] + ".png")
+            print('!!! ', image_path)
             # NeRF 'transform_matrix' is a camera-to-world transform
             c2w = np.array(frame["transform_matrix"])
             # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)
