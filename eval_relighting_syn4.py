@@ -161,6 +161,7 @@ if __name__ == '__main__':
 
             image = image_rgba[..., :3]
             mask = image_rgba[..., 3:]
+            import torch.nn.functional as F
             mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
             img_pil = Image.fromarray((image * 255).astype(np.uint8))  # Convert to uint8 image
             # Resize
