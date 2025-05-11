@@ -110,7 +110,7 @@ if __name__ == '__main__':
         import torch.nn.functional as F
         mask = mask.unsqueeze(0)
         # Interpolate to [1, 1, 400, 400]
-        mask_resized = F.interpolate(mask, size=(400, 400), mode='bilinear', align_corners=False).unsqueeze(0)
+        mask_resized = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False).squeeze()
         # Remove batch dimension: [1, 400, 400]
         #print('mask !!! ', mask.shape)
         #gt_albedo_np = srgb_to_rgb(gt_albedo_np)
