@@ -101,6 +101,7 @@ if __name__ == '__main__':
         gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match))
         mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         # Resize to 400x400 using bilinear interpolation
+        import torch.nn.functional as F
         mask_resized = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False).squeeze(
             0)
         gt_albedo_np = srgb_to_rgb(gt_albedo_np)
