@@ -98,6 +98,8 @@ if __name__ == '__main__':
         scale_factor = 0.5
         ### RESOLUTION
         from PIL import Image
+
+        subdir = os.environ.get("DATA_SUBDIR", "")
         gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match))
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
