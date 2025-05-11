@@ -97,6 +97,7 @@ if __name__ == '__main__':
         #print('!!!! ', albedo_path)
         scale_factor = 0.5
         ### RESOLUTION
+        from PIL import Image
         gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match))
         img_pil = Image.fromarray((gt_albedo_np * 255).astype(np.uint8))  # if in [0, 1] float
         new_size = (int(img_pil.width * scale_factor), int(img_pil.height * scale_factor))
