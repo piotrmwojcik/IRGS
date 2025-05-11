@@ -100,8 +100,9 @@ if __name__ == '__main__':
         from PIL import Image
 
         subdir = os.environ.get("DATA_SUBDIR", "")
-        gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match))[:3]
-        gt_albedo = torch.from_numpy(gt_albedo_np)[..., :3].permute(1, 2, 0).cuda()
+        gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match)).permute(1, 2, 0)[:3]
+        print('gt_albedo_np ', gt_albedo_np.shape)
+        gt_albedo = torch.from_numpy(gt_albedo_np).cuda()
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
         print('loaded ', gt_albedo_np.shape, image_rgba.shape)
