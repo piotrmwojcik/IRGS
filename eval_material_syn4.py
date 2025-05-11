@@ -108,6 +108,12 @@ if __name__ == '__main__':
         subdir = os.environ.get("DATA_SUBDIR", "")
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
+
+
+
+        match = find_matching_file(os.path.join(args.source_path, 'albedo'), frame["file_path"])
+        albedo_path = os.path.join(args.source_path, "albedo/" + match)
+        gt_albedo_np = load_img_rgb(albedo_path)
         mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         # Resize to 400x400 using bilinear interpolation
         import torch.nn.functional as F
@@ -116,11 +122,6 @@ if __name__ == '__main__':
         mask_resized = F.interpolate(mask, size=(400, 400), mode='bilinear', align_corners=False)
         # Remove batch dimension: [1, 400, 400]
         mask = mask_resized[0]
-
-
-        match = find_matching_file(os.path.join(args.source_path, 'albedo'), frame["file_path"])
-        albedo_path = os.path.join(args.source_path, "albedo/" + match)
-        gt_albedo_np = load_img_rgb(albedo_path)
         img_pil = Image.fromarray((gt_albedo_np * 255).astype(np.uint8))  # Convert to uint8 image
         # Resize
         new_size = (int(img_pil.width * scale_factor), int(img_pil.height * scale_factor))
