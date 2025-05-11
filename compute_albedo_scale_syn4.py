@@ -138,7 +138,7 @@ if __name__ == '__main__':
 
         print('!!!! ', gt_albedo.shape, render_pkg['base_color_linear'].shape)
 
-        albedo_gt_list.append(srgb_to_rgb(gt_albedo.permute(1, 2, 0)).cuda()[mask[0] > 0])
+        albedo_gt_list.append(srgb_to_rgb(gt_albedo).permute(1, 2, 0).cuda()[mask[0] > 0])
         albedo_list.append(render_pkg['base_color_linear'].permute(1, 2, 0)[mask[0] > 0])
         
     albedo_gts = torch.cat(albedo_gt_list, dim=0)
