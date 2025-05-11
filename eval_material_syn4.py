@@ -123,7 +123,6 @@ if __name__ == '__main__':
         
         H = gt_albedo.shape[1]
         W = gt_albedo.shape[2]
-        print('!!! gt albedo size', H, W)
         fovy = focal2fov(fov2focal(fovx, W), H)
 
         custom_cam = Camera(colmap_id=0, R=R, T=T,
@@ -136,6 +135,7 @@ if __name__ == '__main__':
         render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
         #render_pkg['roughness'] = render_pkg['roughness'] * mask
         gt_albedo = gt_albedo * mask
+        print('!!! gt albedo size', H, W, render_pkg['base_color_linear'])
         #gt_roughness = gt_roughness * mask
         psnr_albedo += psnr(render_pkg['base_color_linear'], gt_albedo).mean().double().item()
         ssim_albedo += ssim(render_pkg['base_color_linear'], gt_albedo).mean().double().item()
