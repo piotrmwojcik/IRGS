@@ -64,11 +64,14 @@ if __name__ == '__main__':
 
     fovx = contents["camera_angle_x"]
     frames = contents["frames"]
-    
+
+    eval_to = os.environ.get("EVAL_TO", "")
+    scene_path = os.environ.get("MAP_PATH", "")
+
     task_dict = {
         "env6": {
             "capture_list": ["render", "render_env"],
-            "envmap_path": "/home/pwojcik/IRGS/data/hook150_v3_transl_statictimestep1/golden_bay_4k_32x16_rot330.hdr",
+            "envmap_path": scene_path,
         },
         #"env12": {
         #    "capture_list": ["render", "render_env"],
@@ -133,7 +136,8 @@ if __name__ == '__main__':
             
         envname = os.path.splitext(os.path.basename(task_dict[task_name]["envmap_path"]))[0]
         for idx, frame in enumerate(tqdm(frames, leave=False)):
-            image_path = os.path.join(args.source_path, "golden_bay_4k_32x16_rot330/" + frame["file_path"].split("/")[-1] + ".png")
+            subdir = os.environ.get("DATA_SUBDIR", "")
+            image_path = os.path.join(args.source_path, subdir + frame["file_path"].split("/")[-1] + ".png")
             # NeRF 'transform_matrix' is a camera-to-world transform
             c2w = np.array(frame["transform_matrix"])
             # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)

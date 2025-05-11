@@ -109,8 +109,6 @@ if __name__ == '__main__':
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
 
-
-
         match = find_matching_file(os.path.join(args.source_path, 'albedo'), frame["file_path"])
         albedo_path = os.path.join(args.source_path, "albedo/" + match)
         from PIL import Image
