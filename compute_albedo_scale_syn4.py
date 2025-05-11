@@ -99,6 +99,10 @@ if __name__ == '__main__':
         ### RESOLUTION
         from PIL import Image
         gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match))
+        mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
+        # Resize to 400x400 using bilinear interpolation
+        mask_resized = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False).squeeze(
+            0)
         gt_albedo_np = srgb_to_rgb(gt_albedo_np)
         #print(gt_albedo_np)
         img_pil = Image.fromarray((gt_albedo_np * 255).astype(np.uint8))  # Convert to uint8 image
@@ -112,14 +116,6 @@ if __name__ == '__main__':
         gt_albedo_np = rgb_to_srgb(gt_albedo_np[..., :3])  # convert only RGB to linear
 
         print('!!! ', gt_albedo_np.shape)
-
-        # Mask: extract channel 3 (alpha or mask), resize using PIL (again)
-        mask_pil = Image.fromarray((gt_albedo_np[..., 3] * 255).astype(np.uint8))  # channel 3
-        mask_pil = mask_pil.resize(new_size, Image.BILINEAR)
-        mask = np.array(mask_pil) / 255.0  # back to float
-
-        # Convert to torch tensor and permute to (C, H, W)
-        mask = torch.from_numpy(mask[None, ...]).float().cuda()  # shape: (1, H, W)
         gt_albedo = torch.from_numpy(gt_albedo_np[..., :3] * gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
         
         H = mask.shape[1]
