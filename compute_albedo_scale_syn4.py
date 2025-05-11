@@ -100,6 +100,7 @@ if __name__ == '__main__':
         from PIL import Image
         gt_albedo_np = load_img_rgb(os.path.join(args.source_path, 'albedo', match))
         mask = torch.from_numpy(gt_albedo_np[..., 3:4]).permute(2, 0, 1).float().cuda()
+        print('mask !!!!!! ', mask, np.max(mask), np.min(max))
         # Resize to 400x400 using bilinear interpolation
         import torch.nn.functional as F
         mask = mask.unsqueeze(0)
@@ -118,7 +119,7 @@ if __name__ == '__main__':
         gt_albedo_np = np.array(img_pil) / 255.0  # shape: (H, W, 4)
         #gt_albedo_np = rgb_to_srgb(gt_albedo_np[..., :3])  # convert only RGB to linear
         #print('!!! albedo', gt_albedo_np.shape)
-        print('mask !!!!!! ', (mask > 1e-6).sum())
+        print(mask)
         print('!!!! ', gt_albedo_np.shape, mask.permute(1, 2, 0).shape)
         gt_albedo = (torch.from_numpy(gt_albedo_np).cuda() * mask.permute(1, 2, 0)).permute(2, 0, 1).float().cuda()
 
