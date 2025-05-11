@@ -104,7 +104,8 @@ if __name__ == '__main__':
         gt_albedo = torch.from_numpy(gt_albedo_np)[..., :3].permute(1, 2, 0).cuda()
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         image_rgba = load_img_rgb(image_path)
-        mask = torch.from_numpy(image_rgba[..., 3:4]).float().cuda()
+        print('loaded ', gt_albedo_np.shape, image_rgba.shape)
+        mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).float().cuda()
         #print('mask !!!!!!', mask, mask.max().item(), mask.min().item())
         # Resize to 400x400 using bilinear interpolation
         import torch.nn.functional as F
