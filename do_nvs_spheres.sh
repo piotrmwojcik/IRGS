@@ -12,6 +12,6 @@ do
         echo "Processing SCENE: $SCENE with DATA_SUBDIR: $DATA_SUBDIR"
 
         CUDA_VISIBLE_DEVICES=0 python render.py \
-            -m outputs/s2_${DATA_SUBDIR}/irgs_$SCENE --eval --diffuse_sample_num 512
+            -m outputs_specular/s2_${DATA_SUBDIR}/irgs_$SCENE --eval --diffuse_sample_num 512
     done
 done
