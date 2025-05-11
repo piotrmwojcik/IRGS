@@ -115,7 +115,6 @@ if __name__ == '__main__':
         gt_albedo_np = load_img_rgb(albedo_path)
         gt_albedo = torch.from_numpy(gt_albedo_np)[..., :3].cuda().permute(2, 0, 1)
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
-        image_rgba = load_img_rgb(image_path)
         print('loaded ', gt_albedo_np.shape, image_rgba.shape)
         mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).float().cuda()
         import torch.nn.functional as F
@@ -126,9 +125,9 @@ if __name__ == '__main__':
         gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
                                   align_corners=False).squeeze(0)
 
-        print('!!!! ', mask.shape, gt_albedo.shape)
-
         gt_albedo = srgb_to_rgb(gt_albedo)
+        gt_albedo = gt_albedo.permute(1, 2, 0)
+        mask = mask.permute(1, 2, 0)
 
         #roughness_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rough.png")
         #gt_roughness_np = load_img_rgb(roughness_path)
