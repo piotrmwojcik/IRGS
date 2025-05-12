@@ -146,7 +146,7 @@ if __name__ == '__main__':
 
         print(render_pkg['base_color_linear'].shape)
         print(base_color_scale.shape)
-        save_image(render_pkg['base_color_linear']*base_color_scale[:, None, None], os.path.join(args.model_path,
+        save_image(srgb_to_rgb(rgb_to_srgb(render_pkg['base_color_linear']*base_color_scale[:, None, None])), os.path.join(args.model_path,
                                                                  f'scaled_albedo_{frame["file_path"].split("/")[-1]}.png'))
         render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
         print('!!! gt albedo size', H, W, render_pkg['base_color_linear'].shape,
