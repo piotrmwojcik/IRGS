@@ -118,7 +118,8 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         #    env_dict["env2"].permute(2, 0, 1),
         #]
         #grid = make_grid(grid, nrow=1, padding=10)
-        save_image(grid, os.path.join("outputs/scaled_env_map_jj.png"))
+        print('!!! saving')
+        save_image(env2_map, os.path.join("outputs/scaled_env_map_jj.png"))
 
         if not skip_train:
              render_set(dataset.model_path, "train", scene.loaded_iter, scene.getTrainCameras(), gaussians, pipeline, background)
