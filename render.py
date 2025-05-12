@@ -33,7 +33,7 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
     path_prefix = os.path.join(model_path, name, "ours_{}".format(iteration))
     gts_path = os.path.join(path_prefix, "gt")
     
-    keys = ["render", "render_env", "render_normal_view", "diffuse", "specular", "roughness", "base_color", "base_color_linear", "rend_alpha", "rend_normal", "visibility"]
+    keys = ["render", "render_env", "rend_normal_view", "diffuse", "specular", "roughness", "base_color", "base_color_linear", "rend_alpha", "rend_normal", "visibility"]
     
     makedirs(gts_path, exist_ok=True)
     for key in keys:
