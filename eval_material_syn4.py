@@ -68,7 +68,7 @@ if __name__ == '__main__':
     fovx = contents["camera_angle_x"]
     frames = contents["frames"]
 
-    background = torch.tensor([0, 0, 0], dtype=torch.float32, device="cuda")
+    background = torch.tensor([1, 1, 1], dtype=torch.float32, device="cuda")
     
     if args.albedo_rescale == 0:
         base_color_scale = torch.tensor([1, 1, 1], dtype=torch.float32, device="cuda")
