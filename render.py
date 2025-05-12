@@ -105,8 +105,12 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
                                      activation=gaussians.env_map.activation_name).cuda()
         gaussians.env_map.set_transform(transform)
 
-        #env_dict = gaussians.render_env_map()
+        #gaussians.env_map
 
+        env_dict = gaussians.render_env_map()
+
+        env2_map = env_dict["env2"].permute(2, 0, 1)
+        env2_map = env2_map / torch.max(env2_map)
         #print('!!! keys ', env_dict.keys())
 
         #grid = [
@@ -114,8 +118,7 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         #    env_dict["env2"].permute(2, 0, 1),
         #]
         #grid = make_grid(grid, nrow=1, padding=10)
-        #save_image(grid, os.path.join('outputs/s2_dam_wall_4k_32x16_rot90/irgs_hook150_v3_transl_statictimestep1/test/',
-        #                              f"debug_env.png"))
+        save_image(grid, os.path.join("outputs/scaled_env_map_jj.png"))
 
         if not skip_train:
              render_set(dataset.model_path, "train", scene.loaded_iter, scene.getTrainCameras(), gaussians, pipeline, background)
