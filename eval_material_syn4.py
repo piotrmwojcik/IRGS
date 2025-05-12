@@ -144,6 +144,8 @@ if __name__ == '__main__':
         with torch.no_grad():
             render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
 
+        print(render_pkg['base_color_linear'].shape)
+        print(base_color_scale.shape)
         save_image(render_pkg['base_color_linear']*base_color_scale, os.path.join(args.model_path,
                                                                  f'{frame["file_path"].split("/")[-1]}.png'))
         render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
