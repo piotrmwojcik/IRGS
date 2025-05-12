@@ -58,6 +58,7 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
         torchvision.utils.save_image(gt_image, os.path.join(gts_path, '{0:05d}'.format(idx) + ".png"))
         for key in keys:
             out = render_pkg[key]
+            print('!!! ', key)
             if 'render' in key:
                 mask_nonblack = (out != 0).any(dim=0, keepdim=True)  # shape: [1, H, W]
                 out = (out + 1) / 2
