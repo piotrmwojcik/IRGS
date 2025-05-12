@@ -146,7 +146,6 @@ if __name__ == '__main__':
         for idx, frame in enumerate(tqdm(frames, leave=False)):
             mapname = os.environ.get("MAP_NAME", "")
             image_path = os.path.join(args.source_path, mapname, frame["file_path"].split("/")[-1] + ".png")
-            #print('!!! ', image_path)
             # NeRF 'transform_matrix' is a camera-to-world transform
             c2w = np.array(frame["transform_matrix"])
             # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)
@@ -158,34 +157,19 @@ if __name__ == '__main__':
             T = w2c[:3, 3]
 
             image_rgba = load_img_rgb(image_path)
-            from PIL import Image
-
             image = image_rgba[..., :3]
-            mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).float().cuda()
-            # print('mask !!!!!!', mask, mask.max().item(), mask.min().item())
-            # Resize to 400x400 using bilinear interpolation
-            import torch.nn.functional as F
-
-            # Interpolate to [1, 1, 400, 400]
-            mask = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear', align_corners=False).squeeze(0)
-            # Remove batch dimension: [1, 400, 400]
-            gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
-                                      align_corners=False).squeeze(0)
-            import torch.nn.functional as F
-            mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
-            img_pil = Image.fromarray((image * 255).astype(np.uint8))  # Convert to uint8 image
-            # Resize
-            scale_factor = 0.5
-            new_size = (int(img_pil.width * scale_factor), int(img_pil.height * scale_factor))
-            img_pil = img_pil.resize(new_size, Image.BILINEAR)
-            # Convert back to NumPy and normalize
-            image = np.array(img_pil) / 255.0
-
+            mask = image_rgba[..., 3:]
             gt_image = torch.from_numpy(image).permute(2, 0, 1).float().cuda()
+            mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
+            mask = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear',
+                                 align_corners=False).squeeze(0)
+            image = F.interpolate(image.unsqueeze(0), size=(400, 400), mode='bilinear',
+                                 align_corners=False).squeeze(0)
             gt_image = gt_image * mask
-            
+
             H = image.shape[0]
             W = image.shape[1]
+
             print('!!!!! H W', H, W)
             fovy = focal2fov(fov2focal(fovx, W), H)
 
