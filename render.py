@@ -64,7 +64,7 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
                 out = (out + 1) / 2
             if out.shape[0] == 1:
                 out = out.repeat(3, 1, 1)
-            torchvision.utils.save_image(out * view.mask.float().cuda(),
+            torchvision.utils.save_image(out,
                                         os.path.join(path_prefix, key, '{0:05d}'.format(idx) + ".png"))
             #orchvision.utils.save_image(out * view.mask.float().cuda(), os.path.join(path_prefix, key, '{0:05d}'.format(idx) + ".png"))
             
