@@ -144,7 +144,8 @@ if __name__ == '__main__':
         with torch.no_grad():
             render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
 
-        save_image(render_pkg['base_color_linear'], os.path.join(args.model_path, 'scaled_render.png'))
+        save_image(render_pkg['base_color_linear']*base_color_scale, os.path.join(args.model_path,
+                                                                 f'{frame["file_path"].split("/")[-1]}.png'))
         render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
         print('!!! gt albedo size', H, W, render_pkg['base_color_linear'].shape,
               mask.shape, gt_albedo.shape, render_pkg['base_color_linear'].dtype, mask.dtype, gt_albedo.dtype)
