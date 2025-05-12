@@ -91,7 +91,7 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         ], dtype=torch.float32, device="cuda")
         gaussians.env_map.set_transform(transform)
         
-        bg_color = [1,1,1] if dataset.white_background else [0, 0, 0]
+        bg_color = [1,1,1]# if dataset.white_background else [0, 0, 0]
         background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
         map_path = os.path.join(dataset.model_path,
                      "point_cloud",
