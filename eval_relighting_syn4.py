@@ -162,10 +162,10 @@ if __name__ == '__main__':
             gt_image = torch.from_numpy(image).permute(2, 0, 1).float().cuda()
             mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
             import torch.nn.functional as F
-            mask = F.interpolate(mask).unsqueeze(0, size=(400, 400), mode='bilinear',
-                                 align_corners=False).squeeze(0)
+            mask = F.interpolate(mask.unsqueeze(0), size=(400, 400),
+                                                 mode='bilinear', align_corners=False).squeeze(0)
             gt_image = F.interpolate(gt_image.unsqueeze(0), size=(400, 400), mode='bilinear',
-                                 align_corners=False).squeeze(0)
+                                                align_corners=False).squeeze(0)
             gt_image = gt_image * mask
 
             H = image.shape[0]
