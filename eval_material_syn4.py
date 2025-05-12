@@ -68,7 +68,7 @@ if __name__ == '__main__':
     fovx = contents["camera_angle_x"]
     frames = contents["frames"]
 
-    background = torch.tensor([1, 1, 1], dtype=torch.float32, device="cuda")
+    background = torch.tensor([0, 0, 0], dtype=torch.float32, device="cuda")
     
     if args.albedo_rescale == 0:
         base_color_scale = torch.tensor([1, 1, 1], dtype=torch.float32, device="cuda")
@@ -146,8 +146,8 @@ if __name__ == '__main__':
 
         print(render_pkg['base_color_linear'].shape)
         print(base_color_scale.shape)
-        save_image(rgb_to_srgb(render_pkg['base_color']*base_color_scale[:, None, None]), os.path.join(args.model_path,
-                                                                 f'scaled_albedo_{frame["file_path"].split("/")[-1]}.png'))
+        save_image(render_pkg['base_color'], os.path.join(args.model_path,
+                    f'scaled_albedo_{frame["file_path"].split("/")[-1]}.png'))
         render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
         print('!!! gt albedo size', H, W, render_pkg['base_color_linear'].shape,
               mask.shape, gt_albedo.shape, render_pkg['base_color_linear'].dtype, mask.dtype, gt_albedo.dtype)

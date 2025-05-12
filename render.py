@@ -61,15 +61,15 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
             print('!!! ', key)
             if 'rend' in key:
                 mask_nonblack = (out != 0).any(dim=0, keepdim=True)  # shape: [1, H, W]
-                out = (out + 1) / 2
-                out = out * mask_nonblack + (1.0 * (~mask_nonblack))
+                out = (out + 1) / 2  # Normalize to [0, 1]
+                out = out * mask_nonblack  # Preserve original black areas as black
             if 'position' in key:
                 out = (out + 1) / 2
             if out.shape[0] == 1:
                 out = out.repeat(3, 1, 1)
-            torchvision.utils.save_image(out,
-                                        os.path.join(path_prefix, key, '{0:05d}'.format(idx) + ".png"))
-            #orchvision.utils.save_image(out * view.mask.float().cuda(), os.path.join(path_prefix, key, '{0:05d}'.format(idx) + ".png"))
+            #torchvision.utils.save_image(out,
+            #                            os.path.join(path_prefix, key, '{0:05d}'.format(idx) + ".png"))
+            torchvision.utils.save_image(out * view.mask.float().cuda(), os.path.join(path_prefix, key, '{0:05d}'.format(idx) + ".png"))
             
     psnr_avg /= len(views)
     ssim_avg /= len(views)
