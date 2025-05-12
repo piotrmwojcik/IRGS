@@ -137,7 +137,7 @@ def render_ir(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tenso
     # get normal map
     render_normal = allmap[2:5]
     render_normal = (render_normal.permute(1,2,0) @ (viewpoint_camera.world_view_transform[:3,:3].T)).permute(2,0,1)
-    
+
     # get median depth map
     render_depth_median = allmap[5:6]
     render_depth_median = torch.nan_to_num(render_depth_median, 0, 0)
@@ -225,7 +225,11 @@ def render_ir(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tenso
     rendered_diffuse = torch.zeros_like(rendered_image).permute(1, 2, 0)
     rendered_diffuse[mask] = diffuse
     rendered_diffuse = rendered_diffuse.permute(2, 0, 1)
-        
+
+    # get normal map view space
+    render_normal_view = torch.nan_to_num(allmap[2:5], 0, 0)
+    render_normal_view = -render_normal_view * mask
+
     rendered_specular = torch.zeros_like(rendered_image).permute(1, 2, 0)
     rendered_specular[mask] = specular
     rendered_specular = rendered_specular.permute(2, 0, 1)
@@ -244,6 +248,7 @@ def render_ir(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tenso
         "diffuse": rgb_to_srgb(rendered_diffuse),
         "specular": rgb_to_srgb(rendered_specular),
         "mask": mask,
+        "rend_normal_view": render_normal_view,
         "roughness": rendered_roughness * render_alpha,
         "base_color": rgb_to_srgb(rendered_base_color) * render_alpha,
         "base_color_linear": rendered_base_color * render_alpha,
