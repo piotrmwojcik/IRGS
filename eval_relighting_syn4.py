@@ -161,6 +161,7 @@ if __name__ == '__main__':
             mask = image_rgba[..., 3:]
             gt_image = torch.from_numpy(image).permute(2, 0, 1).float().cuda()
             mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
+            from torchvision.utils import save_image
             mask = F.interpolate(mask.unsqueeze(0), size=(400, 400), mode='bilinear',
                                  align_corners=False).squeeze(0)
             image = F.interpolate(image.unsqueeze(0), size=(400, 400), mode='bilinear',
