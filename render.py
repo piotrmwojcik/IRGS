@@ -59,7 +59,7 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
         for key in keys:
             out = render_pkg[key]
             print('!!! ', key)
-            if 'rend' in key:
+            if 'rend_' in key:
                 mask_nonblack = (out != 0).any(dim=0, keepdim=True)  # shape: [1, H, W]
                 out = (out + 1) / 2  # Normalize to [0, 1]
                 out = out * mask_nonblack  # Preserve original black areas as black
