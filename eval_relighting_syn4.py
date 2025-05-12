@@ -168,8 +168,8 @@ if __name__ == '__main__':
                                                 align_corners=False).squeeze(0)
             gt_image = gt_image * mask
 
-            H = image.shape[0]
-            W = image.shape[1]
+            H = gt_image.shape[0]
+            W = gt_image.shape[1]
 
             print('!!!!! H W', H, W)
             fovy = focal2fov(fov2focal(fovx, W), H)
