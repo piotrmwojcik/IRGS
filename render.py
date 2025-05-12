@@ -58,8 +58,8 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
         torchvision.utils.save_image(gt_image, os.path.join(gts_path, '{0:05d}'.format(idx) + ".png"))
         for key in keys:
             out = render_pkg[key]
-            if 'normal' in key:
-                out = (out + 1) / 2
+            #if 'normal' in key:
+            #    out = (out + 1) / 2
             if 'position' in key:
                 out = (out + 1) / 2
             if out.shape[0] == 1:
