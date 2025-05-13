@@ -15,7 +15,7 @@ def sample_camera_rays(HWK, R, T):
     R = R.T # NOTE!!! the R rot matrix is transposed save in 3DGS
     
     global pixel_camera
-    print('### ', pixel_camera.shape, H, W)
+    #print('### ', pixel_camera.shape, H, W)
     if pixel_camera is None or pixel_camera.shape[0] != H or pixel_camera.shape[1] != W:
         K = K.astype(np.float32)
         i, j = np.meshgrid(np.arange(W, dtype=np.float32),
