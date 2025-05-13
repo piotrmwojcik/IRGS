@@ -16,7 +16,7 @@ def sample_camera_rays(HWK, R, T):
     
     global pixel_camera
     print('### ', pixel_camera.shape, H, W)
-    if pixel_camera is None or pixel_camera.shape[0] != H:
+    if pixel_camera is None or pixel_camera.shape[0] != H or pixel_camera.shape[1] != W:
         K = K.astype(np.float32)
         i, j = np.meshgrid(np.arange(W, dtype=np.float32),
                         np.arange(H, dtype=np.float32),
