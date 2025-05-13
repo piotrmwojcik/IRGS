@@ -46,14 +46,14 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     gaussians = GaussianModel(dataset.sh_degree)
     set_gaussian_para(gaussians, opt)
     
-    scene = Scene(dataset, gaussians)
+    scene = Scene(dataset, gaussians, load_iteration=50000) ### HACK
     gaussians.training_setup(opt)
-    if checkpoint:
-        (model_params, first_iter) = torch.load(checkpoint, weights_only=False)
-        gaussians.restore(model_params, opt)
-    elif checkpoint_refgs:
-        (model_params, _) = torch.load(checkpoint_refgs, weights_only=False)
-        gaussians.restore_from_refgs(model_params, opt)
+    #if checkpoint:
+    #    (model_params, first_iter) = torch.load(checkpoint, weights_only=False)
+    #    gaussians.restore(model_params, opt)
+    #elif checkpoint_refgs:
+    #    (model_params, _) = torch.load(checkpoint_refgs, weights_only=False)
+    #    gaussians.restore_from_refgs(model_params, opt)
         
     gaussians.build_bvh()
     
@@ -267,7 +267,7 @@ if __name__ == "__main__":
     parser.add_argument('--ip', type=str, default="127.0.0.1")
     parser.add_argument('--port', type=int, default=6009)
     parser.add_argument('--detect_anomaly', action='store_true', default=False)
-    parser.add_argument("--test_iterations", nargs="+", type=int, default=[])
+    parser.add_argument("--test_iterations", nargs="+", type=int, default=[range(1, 100000, 1000)])
     parser.add_argument("--save_iterations", nargs="+", type=int, default=[7000,60000,70000])
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--checkpoint_iterations", nargs="+", type=int, default=[])
