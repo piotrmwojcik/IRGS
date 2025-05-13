@@ -29,7 +29,7 @@ def sample_camera_rays(HWK, R, T):
     pixel_world = (pixel_camera - T[None, None]).reshape(-1, 3) @ R
     rays_d = pixel_world - rays_o[None]
     rays_d = rays_d / torch.norm(rays_d, dim=1, keepdim=True)
-    print('!!! ', rays_d.shape, H, W)
+    #print('!!! ', rays_d.shape, H, W)
     rays_d = rays_d.reshape(H,W,3)
     return rays_d, rays_o
 
