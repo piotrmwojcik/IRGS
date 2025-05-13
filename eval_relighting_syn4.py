@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
     # load gaussians
     gaussians = GaussianModel(3)
-    print('!!!!! ', gaussians.env_map.shape)
+    #print('!!!!! ', gaussians.env_map.shape)
     
     if args.iteration < 0:
         loaded_iter = searchForMaxIteration(os.path.join(args.model_path, "point_cloud"))
