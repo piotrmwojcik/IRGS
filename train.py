@@ -47,7 +47,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     set_gaussian_para(gaussians, opt)
     
     scene = Scene(dataset, gaussians) ### HACK
-    gaussians.training_setup(opt)
+    #gaussians.training_setup(opt)
     if checkpoint:
         (model_params, first_iter) = torch.load(checkpoint, weights_only=False)
         gaussians.restore(model_params, opt)
