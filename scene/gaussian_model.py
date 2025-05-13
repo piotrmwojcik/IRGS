@@ -470,6 +470,9 @@ class GaussianModel:
                         np.asarray(plydata.elements[0]["z"])),  axis=1)
         opacities = np.asarray(plydata.elements[0]["opacity"])[..., np.newaxis]
 
+
+        print(f'Load PLY from {path} {xyz.shape}')
+
         base_color = np.stack((np.asarray(plydata.elements[0]['base_color_0']),
                               np.asarray(plydata.elements[0]['base_color_1']),
                               np.asarray(plydata.elements[0]['base_color_2'])),  axis=1)
