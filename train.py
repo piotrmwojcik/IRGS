@@ -47,7 +47,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     set_gaussian_para(gaussians, opt)
     
     scene = Scene(dataset, gaussians) ### HACK
-    gaussians.training_setup(opt)
+    #gaussians.training_setup(opt)
     if checkpoint:
         (model_params, first_iter) = torch.load(checkpoint, weights_only=False)
         gaussians.restore(model_params, opt)
@@ -55,10 +55,10 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         (model_params, _) = torch.load(checkpoint_refgs, weights_only=False)
         gaussians.restore_from_refgs(model_params, opt)
 
-    #gaussians.load_ply(
-    #    os.path.join("/home/pwojcik/IRGS/outputs/images_710_780_single_ts/point_cloud/iteration_50000/point_cloud.ply"))
+    gaussians.load_ply(
+        os.path.join("/home/pwojcik/IRGS/outputs/images_710_780_single_ts/point_cloud/iteration_50000/point_cloud.ply"))
     #gaussians.create_from_pcd(scene_info.point_cloud, self.cameras_extent, args)
-    #gaussians.training_setup(opt)
+    gaussians.training_setup(opt)
     gaussians.build_bvh()
     
     if scene.light_rotate:
