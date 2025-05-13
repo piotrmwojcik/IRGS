@@ -117,6 +117,7 @@ class Scene:
                                                         "point_cloud.ply"))
             #self.gaussians.load_ply(os.path.join("/home/pwojcik/IRGS/outputs/images_710_780_single_ts/point_cloud/iteration_50000/point_cloud.ply"))
         else:
+            print('Creating pcd ')
             self.gaussians.create_from_pcd(scene_info.point_cloud, self.cameras_extent, args)
 
     def save(self, iteration):
