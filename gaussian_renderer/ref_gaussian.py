@@ -588,7 +588,8 @@ def render_volume(viewpoint_camera, pc : RefGaussianModel, pipe, bg_color : torc
         visibility = extra['visibility']
         direct_light = extra["direct_light"]
     else: 
-        diffuse, specular = get_full_color_volume(pc.get_envmap_2, means3D, base_color, viewpoint_camera.HWK, viewpoint_camera.R, viewpoint_camera.T, normals.contiguous(), opacity, metallic=metallic, roughness=roughness)
+        diffuse, specular = get_full_color_volume(pc.get_envmap_2, means3D, base_color, viewpoint_camera.HWK, viewpoint_camera.R,
+                                                  viewpoint_camera.T, normals.contiguous(), opacity, metallic=metallic, roughness=roughness)
     colors_precomp = specular + diffuse
 
 
