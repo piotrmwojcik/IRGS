@@ -130,6 +130,22 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
             image_path = image_path.replace('.JPG', '.jpg')
         image = Image.open(image_path)
 
+        mask_rgba = Image.open(
+            image_path
+                .replace("/images/", "/masks/", 1)
+                .replace(".jpg", ".png")
+        )
+        mask = None
+        # Convert RGB mask to binary: True where any channel is non-zero
+        mask_from_image = mask_rgba.any(axis=-1)
+
+        # Combine masks
+        if mask is None:
+            mask = mask_from_image
+        else:
+            mask = mask | mask_from_image  # Logical AND
+        print('!!! masking')
+
 
         #if intr.model=="SIMPLE_RADIAL":
         #    image = cv2.undistort(np.array(image), K, np.array([intr.params[3], 0,0,0]))
@@ -139,7 +155,7 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
         K[:2] *=  real_im_scale
 
         cam_info = CameraInfo(uid=uid, R=R, T=T, K=K, FovY=FovY, FovX=FovX, image=image,
-                              image_path=image_path, image_name=image_name, width=width, height=height, mask=None)
+                              image_path=image_path, image_name=image_name, width=width, height=height, mask=mask)
         cam_infos.append(cam_info)
     sys.stdout.write('\n')
     return cam_infos
@@ -273,20 +289,7 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
                 mask = norm_data[:, :, 3] > 0.5
             else:
                 mask = None
-            mask_rgba = Image.open(
-                viewpoint_cam.image_path
-                    .replace("/images/", "/masks/", 1)
-                    .replace(".jpg", ".png")
-            )
-            # Convert RGB mask to binary: True where any channel is non-zero
-            mask_from_image = mask_rgba.any(axis=-1)
 
-            # Combine masks
-            if mask is None:
-                mask = mask_from_image
-            else:
-                mask = mask | mask_from_image  # Logical AND
-            print('!!! masking')
             arr = norm_data[:,:,:3] * norm_data[:, :, 3:4] + bg * (1 - norm_data[:, :, 3:4])
             image = Image.fromarray(np.array(arr*255.0, dtype=np.byte), "RGB")
             # #
