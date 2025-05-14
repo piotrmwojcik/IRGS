@@ -286,6 +286,7 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
                 mask = mask_from_image
             else:
                 mask = mask | mask_from_image  # Logical AND
+            print('!!! masking')
             arr = norm_data[:,:,:3] * norm_data[:, :, 3:4] + bg * (1 - norm_data[:, :, 3:4])
             image = Image.fromarray(np.array(arr*255.0, dtype=np.byte), "RGB")
             # #
