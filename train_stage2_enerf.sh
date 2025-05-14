@@ -3,7 +3,7 @@ SCENE=images_710_780_single_ts
 CUDA_VISIBLE_DEVICES=0 python train.py \
     -s data/$SCENE \
     --iterations 20000 \
-    --start_checkpoint_refgs outputs/$SCENE/chkpnt50000.pth \
+    --start_checkpoint_refgs outputs/$SCENE_mask/chkpnt50000.pth \
     --envmap_resolution 128 \
     --lambda_base_color_smooth 2 \
     --lambda_roughness_smooth 2 \
@@ -12,6 +12,6 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
     --lambda_light_smooth 0.0005 \
     --init_roughness_value 0.6 \
     --lambda_light 0.1 \
-    -m outputs/irgs_$SCENE \
+    -m outputs/irgs_$SCENE_mask \
     --train_ray \
     --resolution 2
