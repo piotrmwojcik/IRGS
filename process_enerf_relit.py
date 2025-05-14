@@ -2,8 +2,8 @@ import os
 from PIL import Image
 
 # Define the input and output directories
-input_dir = "/home/pwojcik/IRGS/outputs/irgs_images_710_780_single_ts/test_lg0_rli_chapel_day_4k_32x16_rot0_light/"
-output_dir = "/home/pwojcik/IRGS/outputs/irgs_images_710_780_single_ts/test_lg0_rli_chapel_day_4k_32x16_rot0_light_for_paper/"
+input_dir = "/home/pwojcik/IRGS/outputs/irgs_images_710_780_single_ts/test_lg0_rli_test_lg0_rli_golden_bay_4k_32x16_rot330_light/"
+output_dir = "/home/pwojcik/IRGS/outputs/irgs_images_710_780_single_ts/test_lg0_rli_test_lg0_rli_golden_bay_4k_32x16_rot330_light_for_paper/"
 
 os.makedirs(output_dir, exist_ok=True)
 
