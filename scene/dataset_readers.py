@@ -13,6 +13,7 @@ import os
 import sys
 import math
 from PIL import Image
+from scene.dataset_readers import load_img_rgb
 from typing import NamedTuple
 from scene.colmap_loader import read_extrinsics_text, read_intrinsics_text, qvec2rotmat, \
     read_extrinsics_binary, read_intrinsics_binary, read_points3D_binary, read_points3D_text
@@ -129,6 +130,7 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
         if not os.path.exists(image_path):
             image_path = image_path.replace('.JPG', '.jpg')
         image = Image.open(image_path)
+
 
         #if intr.model=="SIMPLE_RADIAL":
         #    image = cv2.undistort(np.array(image), K, np.array([intr.params[3], 0,0,0]))
@@ -272,6 +274,19 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
                 mask = norm_data[:, :, 3] > 0.5
             else:
                 mask = None
+            mask_rgba = load_img_rgb(
+                viewpoint_cam.image_path
+                    .replace("/images/", "/masks/", 1)
+                    .replace(".jpg", ".png")
+            )
+            # Convert RGB mask to binary: True where any channel is non-zero
+            mask_from_image = mask_rgba.any(axis=-1)
+
+            # Combine masks
+            if mask is None:
+                mask = mask_from_image
+            else:
+                mask = mask | mask_from_image  # Logical AND
             arr = norm_data[:,:,:3] * norm_data[:, :, 3:4] + bg * (1 - norm_data[:, :, 3:4])
             image = Image.fromarray(np.array(arr*255.0, dtype=np.byte), "RGB")
             # #
