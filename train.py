@@ -12,6 +12,7 @@
 import os
 import torch
 from random import randint
+from scene.dataset_readers import load_img_rgb
 from utils.loss_utils import calculate_loss2
 from gaussian_renderer import render_ir
 import sys
