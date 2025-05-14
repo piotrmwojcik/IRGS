@@ -1,3 +1,5 @@
+SCENE="images_710_780_single_ts"
+
 for SCENE in \
     hook150_v3_transl_statictimestep1 \
     jumpingjacks150_v3_tex_statictimestep75 \
