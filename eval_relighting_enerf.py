@@ -138,7 +138,7 @@ if __name__ == '__main__':
         envname = os.path.splitext(os.path.basename(task_dict[task_name]["envmap_path"]))[0]
         for idx, frame in enumerate(tqdm(frames, leave=False)):
             mapname = os.environ.get("MAP_NAME", "")
-            image_path = os.path.join(args.source_path, mapname, frame.image_path.split("/")[-1] + ".png")
+            image_path = os.path.join(args.source_path, frame.image_path.split("/")[-1] + ".png")
             # NeRF 'transform_matrix' is a camera-to-world transform
             c2w = np.array(frame.c2w.cpu())
             # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)
@@ -149,20 +149,20 @@ if __name__ == '__main__':
             R = np.transpose(w2c[:3, :3])  # R is stored transposed due to 'glm' in CUDA code
             T = w2c[:3, 3]
 
-            image_rgba = load_img_rgb(image_path)
-            image = image_rgba[..., :3]
-            mask = image_rgba[..., 3:]
-            gt_image = torch.from_numpy(image).permute(2, 0, 1).float().cuda()
-            mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
-            import torch.nn.functional as F
-            mask = F.interpolate(mask.unsqueeze(0), size=(400, 400),
-                                                 mode='bilinear', align_corners=False).squeeze(0)
-            gt_image = F.interpolate(gt_image.unsqueeze(0), size=(400, 400), mode='bilinear',
-                                                align_corners=False).squeeze(0)
-            gt_image = gt_image * mask
+            #image_rgba = load_img_rgb(image_path)
+            #image = image_rgba[..., :3]
+            #mask = image_rgba[..., 3:]
+            #gt_image = torch.from_numpy(image).permute(2, 0, 1).float().cuda()
+            #mask = torch.from_numpy(mask).permute(2, 0, 1).float().cuda()
+            #import torch.nn.functional as F
+            #mask = F.interpolate(mask.unsqueeze(0), size=(400, 400),
+            #                                     mode='bilinear', align_corners=False).squeeze(0)
+            #gt_image = F.interpolate(gt_image.unsqueeze(0), size=(400, 400), mode='bilinear',
+            #                                    align_corners=False).squeeze(0)
+            #gt_image = gt_image * mask
 
-            H = gt_image.shape[1]
-            W = gt_image.shape[2]
+            #H = gt_image.shape[1]
+            #W = gt_image.shape[2]
 
             print('!!!!! H W', H, W)
             fovy = focal2fov(fov2focal(fovx, W), H)
@@ -187,24 +187,24 @@ if __name__ == '__main__':
                 for capture_type in capture_list:
                     save_image(render_pkg[capture_type], os.path.join(task_dir, capture_type, f"{idx}.png"))
             
-            with torch.no_grad():
-                psnr_pbr += psnr(render_pkg['render'], gt_image).mean().double().item()
-                ssim_pbr += ssim(render_pkg['render'], gt_image).mean().double().item()
-                if not args.no_lpips:
-                    lpips_pbr += lpips(render_pkg['render'], gt_image, net_type='vgg').mean().double().item()
-                else:
-                    lpips_pbr += 0.0
+           # with torch.no_grad():
+           #     psnr_pbr += psnr(render_pkg['render'], gt_image).mean().double().item()
+           #     ssim_pbr += ssim(render_pkg['render'], gt_image).mean().double().item()
+           #     if not args.no_lpips:
+            #        lpips_pbr += lpips(render_pkg['render'], gt_image, net_type='vgg').mean().double().item()
+            #    else:
+            #        lpips_pbr += 0.0
                     
             # tqdm.write(f"AVG PBR PSNR: {psnr_pbr / (idx + 1): .4f}")
-        psnr_pbr /= len(frames)
-        ssim_pbr /= len(frames)
-        lpips_pbr /= len(frames)
+        #psnr_pbr /= len(frames)
+        #ssim_pbr /= len(frames)
+        #lpips_pbr /= len(frames)
         
-        results_dict[task_name]["psnr_pbr"] = psnr_pbr
-        results_dict[task_name]["ssim_pbr"] = ssim_pbr
-        results_dict[task_name]["lpips_pbr"] = lpips_pbr
+        #results_dict[task_name]["psnr_pbr"] = psnr_pbr
+        #results_dict[task_name]["ssim_pbr"] = ssim_pbr
+        #results_dict[task_name]["lpips_pbr"] = lpips_pbr
 
-        print("\nEvaluating {}: PSNR_PBR {: .4f} SSIM_PBR {: .4f} LPIPS_PBR {: .4f}".format(task_name, psnr_pbr, ssim_pbr, lpips_pbr))
+        #print("\nEvaluating {}: PSNR_PBR {: .4f} SSIM_PBR {: .4f} LPIPS_PBR {: .4f}".format(task_name, psnr_pbr, ssim_pbr, lpips_pbr))
 
     task_names = list(task_dict.keys())
     results_dict["psnr_pbr_avg"] = np.mean([results_dict[task_name]["psnr_pbr"] for task_name in task_names])
