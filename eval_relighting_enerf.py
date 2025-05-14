@@ -118,7 +118,7 @@ if __name__ == '__main__':
             [0, 0, 1],
             [0, -1, 0]
         ], dtype=torch.float32, device="cuda")
-        transform = transform @ colmap_rot
+        transform = colmap_rot @ transform
         gaussians.env_map.set_transform(transform)
 
         render_kwargs = {
