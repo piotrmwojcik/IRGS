@@ -134,7 +134,8 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
             image_path
                 .replace("/images/", "/masks/", 1)
                 .replace(".jpg", ".png")
-        )
+        ).convert("RGB")  # Ensure 3-channel image
+
         # Convert to NumPy array
         mask_rgba_np = np.array(mask_rgba)
         mask_from_image = (mask_rgba_np[:, :, :3] == 255).all(axis=-1)
