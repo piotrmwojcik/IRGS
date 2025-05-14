@@ -142,6 +142,8 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
         # Now compute mask from image: True where any channel is non-zero
         mask_from_image = mask_rgba_np.any(axis=-1)
 
+        print('!!! ', masking)
+
         # Combine with existing mask (assuming it may come from alpha channel elsewhere)
         #if intr.model=="SIMPLE_RADIAL":
         #    image = cv2.undistort(np.array(image), K, np.array([intr.params[3], 0,0,0]))
