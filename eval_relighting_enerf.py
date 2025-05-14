@@ -164,12 +164,13 @@ if __name__ == '__main__':
             #H = gt_image.shape[1]
             #W = gt_image.shape[2]
 
-            print('!!!!! H W', H, W)
-            fovy = focal2fov(fov2focal(fovx, W), H)
+            #print('!!!!! H W', H, W)
+            #fovx = frame.
+            #fovy = focal2fov(fov2focal(fovx, W), H)
 
-            custom_cam = Camera(colmap_id=0, R=R, T=T,
-                                FoVx=fovx, FoVy=fovy,
-                                image=torch.zeros(3, H, W), gt_alpha_mask=None, image_name=None, uid=0)
+            custom_cam = frame#Camera(colmap_id=0, R=R, T=T,
+                         #       FoVx=fovx, FoVy=fovy,
+                         #       image=torch.zeros(3, H, W), gt_alpha_mask=None, image_name=None, uid=0)
 
             with torch.no_grad():
                 render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
