@@ -13,7 +13,6 @@ import os
 import sys
 import math
 from PIL import Image
-from scene.dataset_readers import load_img_rgb
 from typing import NamedTuple
 from scene.colmap_loader import read_extrinsics_text, read_intrinsics_text, qvec2rotmat, \
     read_extrinsics_binary, read_intrinsics_binary, read_points3D_binary, read_points3D_text
@@ -274,7 +273,7 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
                 mask = norm_data[:, :, 3] > 0.5
             else:
                 mask = None
-            mask_rgba = load_img_rgb(
+            mask_rgba = Image.open(
                 viewpoint_cam.image_path
                     .replace("/images/", "/masks/", 1)
                     .replace(".jpg", ".png")
