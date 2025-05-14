@@ -55,10 +55,10 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         (model_params, _) = torch.load(checkpoint_refgs, weights_only=False)
         gaussians.restore_from_refgs(model_params, opt)
 
-    gaussians.load_ply(
-        os.path.join("/home/pwojcik/IRGS/outputs/images_710_780_single_ts/point_cloud/iteration_50000/point_cloud.ply"))
+    #gaussians.load_ply(
+    #    os.path.join("/home/pwojcik/IRGS/outputs/images_710_780_single_ts/point_cloud/iteration_50000/point_cloud.ply"))
     #gaussians.create_from_pcd(scene_info.point_cloud, self.cameras_extent, args)
-    gaussians.training_setup(opt)
+    #gaussians.training_setup(opt)
     gaussians.build_bvh()
     
     if scene.light_rotate:
@@ -106,7 +106,8 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         render_pkg = render_ir(viewpoint_cam, gaussians, pipe, background, opt=opt, iteration=iteration, training=True)
 
         gt_image = viewpoint_cam.original_image.cuda()
-        
+        print('!!! ', viewpoint_cam.image_path)
+
         total_loss, tb_dict = calculate_loss2(viewpoint_cam, gaussians, render_pkg, opt, iteration)
         dist_loss, normal_loss, loss = tb_dict["loss_dist"], tb_dict["loss_normal_render_depth"], tb_dict["loss"]
 
