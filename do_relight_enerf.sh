@@ -17,6 +17,6 @@ for MAP_NAME in "${maps[@]}"; do
   export SCENE
 
   CUDA_VISIBLE_DEVICES=0 python eval_relighting_syn4.py -m outputs/irgs_$SCENE \
-    --diffuse_sample_num 1024 --light_sample_num 0 --albedo_rescale 2 -e light
+    --diffuse_sample_num 1024 --light_sample_num 0 --albedo_rescale 0 -e light
 
 done
