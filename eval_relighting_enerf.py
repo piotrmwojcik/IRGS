@@ -62,7 +62,7 @@ if __name__ == '__main__':
         
     # deal with each item
     scene = Scene(dataset, gaussians)
-    frames = scene.getTestCameras()
+    frames = scene.getTrainCameras()
     print(frames[0])
 
     #eval_to = os.environ.get("EVAL_TO", "")
