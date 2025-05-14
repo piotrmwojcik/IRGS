@@ -141,6 +141,7 @@ if __name__ == '__main__':
             with torch.no_grad():
                 render_pkg = render_ir(viewpoint_camera=frame, **render_kwargs)
 
+            mask = torch.ones_like(render_pkg["render"])
             render_pkg["render"] = render_pkg["render"] * mask + (1 - mask) * bg
             #gt_image_env = gt_image + render_pkg["env_only"] * (1 - mask)
             if not args.no_save:
