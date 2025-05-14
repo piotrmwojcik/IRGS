@@ -194,6 +194,7 @@ def render_ir(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tenso
     if training:
         if opt.train_ray:
             mask_alpha = render_alpha[0] > 0
+            print(mask_alpha.sum(), (mask_alpha & viewpoint_camera.mask).sum())
             mask_sum = mask_alpha.sum()
             
             num_pixels = opt.trace_num_rays // (pipe.diffuse_sample_num + pipe.light_sample_num)
