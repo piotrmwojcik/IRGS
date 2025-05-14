@@ -157,6 +157,7 @@ if __name__ == '__main__':
                 #save_image(gt_image_env, os.path.join(task_dir, "gt_env", f"{idx}.png"))
                 render_pkg["base_color"] = render_pkg["base_color"] * mask + (1 - mask) * bg
                 save_image(render_pkg["base_color"].clamp(0, 1), os.path.join(task_dir, f"base_color_{idx}.png"))
+                save_image(render_pkg["diffuse"].clamp(0, 1), os.path.join(task_dir, f"diffuse_color_{idx}.png"))
                 render_pkg["base_color_linear"] = render_pkg["base_color_linear"] * mask + (1 - mask) * bg
                 save_image(render_pkg["base_color_linear"].clamp(0, 1), os.path.join(task_dir, f"base_color_linear_{idx}.png"))
 

@@ -3,8 +3,8 @@
 SCENE="images_710_780_single_ts"
 
 maps=(
-  #"chapel_day_4k_32x16_rot0"
-  #"golden_bay_4k_32x16_rot330"
+  "chapel_day_4k_32x16_rot0"
+  "golden_bay_4k_32x16_rot330"
   "test_env_j6_i24"
 )
 
@@ -16,7 +16,7 @@ for MAP_NAME in "${maps[@]}"; do
   export MAP_NAME
   export SCENE
 
-  CUDA_VISIBLE_DEVICES=0 python eval_relighting_enerf.py -m "outputs/irgs_${SCENE}_mask" \
+  CUDA_VISIBLE_DEVICES=0 python eval_relighting_enerf.py -m "outputs/irgs_${SCENE}" \
     --diffuse_sample_num 1024 \
     --light_sample_num 0 \
     --resolution 4 \
