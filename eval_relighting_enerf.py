@@ -168,9 +168,9 @@ if __name__ == '__main__':
             #fovx = frame.
             #fovy = focal2fov(fov2focal(fovx, W), H)
 
-            custom_cam = frame#Camera(colmap_id=0, R=R, T=T,
-                         #       FoVx=fovx, FoVy=fovy,
-                         #       image=torch.zeros(3, H, W), gt_alpha_mask=None, image_name=None, uid=0)
+            custom_cam = Camera(colmap_id=0, R=frame.R, T=frame.T,
+                                FoVx=frame.FoVx, FoVy=frame.FoVy,
+                                image=torch.zeros(3, 400, 400), gt_alpha_mask=None, image_name=frame.image_name, uid=0)
 
             with torch.no_grad():
                 render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
