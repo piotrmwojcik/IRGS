@@ -168,6 +168,7 @@ if __name__ == '__main__':
             #fovx = frame.
             #fovy = focal2fov(fov2focal(fovx, W), H)
 
+            import copy
             custom_cam = copy.deepcopy(frame)
             custom_cam.image = torch.zeros(3, 400, 400)  # Override image if needed
             custom_cam.uid = 0
