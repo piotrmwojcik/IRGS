@@ -19,7 +19,7 @@ for root, _, files in os.walk(input_dir):
                 with Image.open(input_path) as img:
                     # Resize if bigger than 500x300
                     if img.width > 500 or img.height > 300:
-                        new_size = (img.width // 4, img.height // 4)
+                        new_size = (img.width // 2, img.height // 2)
                         img = img.resize(new_size, Image.LANCZOS)
 
                     # Crop the image
