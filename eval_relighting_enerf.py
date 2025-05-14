@@ -63,7 +63,7 @@ if __name__ == '__main__':
     # deal with each item
     scene = Scene(dataset, gaussians)
     frames = scene.getTrainCameras()
-    print(frames[0])
+    #print(frames[0])
 
     #eval_to = os.environ.get("EVAL_TO", "")
     map_path = os.environ.get("MAP_PATH", "")
@@ -138,9 +138,9 @@ if __name__ == '__main__':
         envname = os.path.splitext(os.path.basename(task_dict[task_name]["envmap_path"]))[0]
         for idx, frame in enumerate(tqdm(frames, leave=False)):
             mapname = os.environ.get("MAP_NAME", "")
-            image_path = os.path.join(args.source_path, mapname, frame["file_path"].split("/")[-1] + ".png")
+            image_path = os.path.join(args.source_path, mapname, camera.file_path.split("/")[-1] + ".png")
             # NeRF 'transform_matrix' is a camera-to-world transform
-            c2w = np.array(frame["transform_matrix"])
+            c2w = np.array(frame.c2w)
             # change from OpenGL/Blender camera axes (Y up, Z back) to COLMAP (Y down, Z forward)
             c2w[:3, 1:3] *= -1
 
