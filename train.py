@@ -106,7 +106,9 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         render_pkg = render_ir(viewpoint_cam, gaussians, pipe, background, opt=opt, iteration=iteration, training=True)
 
         gt_image = viewpoint_cam.original_image.cuda()
-        print('!!! ', viewpoint_cam.image_path)
+        #print('!!! ', viewpoint_cam.image_path)
+        mask_rgba = load_img_rgb(gt_image)
+        print('!!! ', mask_rgba.shape)
 
         total_loss, tb_dict = calculate_loss2(viewpoint_cam, gaussians, render_pkg, opt, iteration)
         dist_loss, normal_loss, loss = tb_dict["loss_dist"], tb_dict["loss_normal_render_depth"], tb_dict["loss"]
