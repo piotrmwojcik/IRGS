@@ -147,7 +147,7 @@ if __name__ == '__main__':
             gt_image = frame.original_image
             if not args.no_save:
                 save_image(gt_image, os.path.join(task_dir, "gt", f"{idx}.png"))
-                save_image(gt_image_env, os.path.join(task_dir, "gt_env", f"{idx}.png"))
+                #save_image(gt_image_env, os.path.join(task_dir, "gt_env", f"{idx}.png"))
                 render_pkg["base_color"] = render_pkg["base_color"] * mask + (1 - mask) * bg
                 save_image(render_pkg["base_color"].clamp(0, 1), os.path.join(task_dir, f"base_color_{idx}.png"))
                 render_pkg["base_color_linear"] = render_pkg["base_color_linear"] * mask + (1 - mask) * bg
