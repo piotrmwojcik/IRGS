@@ -141,6 +141,7 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
 
         # Now compute mask from image: True where any channel is non-zero
         mask_from_image = mask_rgba_np.any(axis=-1)
+        mask_from_image = np.squeeze(mask_rgba_np.any(axis=-1), axis=0)
 
         print('!!! masking')
 
