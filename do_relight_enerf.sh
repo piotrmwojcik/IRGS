@@ -3,8 +3,8 @@
 SCENE="images_710_780_single_ts"
 
 maps=(
-  "chapel_day_4k_32x16_rot0"
-  "golden_bay_4k_32x16_rot330"
+  #"chapel_day_4k_32x16_rot0"
+  #"golden_bay_4k_32x16_rot330"
   "test_env_j6_i24"
 )
 

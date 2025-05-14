@@ -112,6 +112,13 @@ if __name__ == '__main__':
             [0, 0, 1], 
             [-1, 0, 0]
         ], dtype=torch.float32, device="cuda")
+        # sample for colmap convention. Without it envmap is sampled for blender convention
+        colmap_rot = torch.tensor([
+            [1, 0, 0],
+            [0, 0, 1],
+            [0, -1, 0]
+        ], dtype=torch.float32, device="cuda")
+        transform = transform @ colmap_rot
         gaussians.env_map.set_transform(transform)
 
         render_kwargs = {
