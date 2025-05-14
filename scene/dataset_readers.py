@@ -135,13 +135,9 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
                 .replace("/images/", "/masks/", 1)
                 .replace(".jpg", ".png")
         )
-        mask = None
         # Convert to NumPy array
         mask_rgba_np = np.array(mask_rgba)
-
-        # Now compute mask from image: True where any channel is non-zero
-        mask_from_image = mask_rgba_np.any(axis=-1)
-        # = mask_rgba_np.any(axis=-1)
+        mask_from_image = (mask_rgba_np[:, :, :3] == 255).all(axis=-1)
 
         print('!!! masking ', mask_from_image.shape)
 
