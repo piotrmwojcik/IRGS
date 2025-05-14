@@ -168,9 +168,16 @@ if __name__ == '__main__':
             #fovx = frame.
             #fovy = focal2fov(fov2focal(fovx, W), H)
 
-            custom_cam = Camera(colmap_id=0, R=frame.R, T=frame.T,
-                                FoVx=frame.FoVx, FoVy=frame.FoVy,
-                                image=torch.zeros(3, 400, 400), gt_alpha_mask=None, image_name=frame.image_name, uid=0)
+            custom_cam = Camera(
+                colmap_id=0,
+                R=frame.R.clone(),  # clone() is optional, but avoids reference sharing
+                T=frame.T.clone(),
+                FoVx=frame.FoVx,
+                FoVy=frame.FoVy,
+                image=torch.zeros(3, 400, 400),  # new blank image
+                gt_alpha_mask=None,
+                image_name=frame.image_name,
+                uid=0)
 
             with torch.no_grad():
                 render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
