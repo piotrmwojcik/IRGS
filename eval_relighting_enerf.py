@@ -144,6 +144,7 @@ if __name__ == '__main__':
             mask = torch.ones_like(render_pkg["render"])
             render_pkg["render"] = render_pkg["render"] * mask + (1 - mask) * bg
             #gt_image_env = gt_image + render_pkg["env_only"] * (1 - mask)
+            gt_image = frame.original_image
             if not args.no_save:
                 save_image(gt_image, os.path.join(task_dir, "gt", f"{idx}.png"))
                 save_image(gt_image_env, os.path.join(task_dir, "gt_env", f"{idx}.png"))
