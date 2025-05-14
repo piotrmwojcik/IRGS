@@ -1,5 +1,6 @@
 import json
 import sys
+from scene import Scene
 import os
 from gaussian_renderer import render_ir
 import numpy as np
