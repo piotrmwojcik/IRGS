@@ -29,7 +29,7 @@ count = 0
 # Iterate over all map and scene combinations
 for map_name in maps:
     for scene in scenes:
-        json_path = os.path.join(base_dir, f"s2_{map_name}", f"irgs_{scene}", "test", "material_results.json")
+        json_path = os.path.join(base_dir, f"s2_{map_name}", f"irgs_{scene}", "material_results.json")
 
         if not os.path.isfile(json_path):
             print(f"Missing: {json_path}")
