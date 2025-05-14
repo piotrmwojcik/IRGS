@@ -108,7 +108,11 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
 
         gt_image = viewpoint_cam.original_image.cuda()
         #print('!!! ', viewpoint_cam.image_path)
-        mask_rgba = load_img_rgb(viewpoint_cam.image_path.replace("/images/", "/masks/", 1))
+        mask_rgba = load_img_rgb(
+            viewpoint_cam.image_path
+                .replace("/images/", "/masks/", 1)
+                .replace(".jpg", ".png")
+        )
         print('!!! ', mask_rgba.shape)
         
         total_loss, tb_dict = calculate_loss2(viewpoint_cam, gaussians, render_pkg, opt, iteration)
