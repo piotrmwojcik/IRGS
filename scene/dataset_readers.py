@@ -143,12 +143,6 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
         mask_from_image = mask_rgba_np.any(axis=-1)
 
         # Combine with existing mask (assuming it may come from alpha channel elsewhere)
-        if norm_data.shape[-1] == 4:
-            mask = norm_data[:, :, 3] > 0.5
-            mask = mask & mask_from_image  # Combine with logical AND
-        else:
-            mask = mask_from_image
-
         #if intr.model=="SIMPLE_RADIAL":
         #    image = cv2.undistort(np.array(image), K, np.array([intr.params[3], 0,0,0]))
         #    image = Image.fromarray(image.astype('uint8')).convert('RGB')
@@ -157,7 +151,7 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
         K[:2] *=  real_im_scale
 
         cam_info = CameraInfo(uid=uid, R=R, T=T, K=K, FovY=FovY, FovX=FovX, image=image,
-                              image_path=image_path, image_name=image_name, width=width, height=height, mask=mask)
+                              image_path=image_path, image_name=image_name, width=width, height=height, mask=mask_from_image)
         cam_infos.append(cam_info)
     sys.stdout.write('\n')
     return cam_infos
