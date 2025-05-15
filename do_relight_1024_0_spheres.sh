@@ -1,5 +1,5 @@
 for SCENE in \
-    spheres_cube_dataset_v5_statictimestep1 \
+    spheres_cube_dataset_v6_statictimestep1 \
     aa
     #standup150_v3_statictimestep75
 do
