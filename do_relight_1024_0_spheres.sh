@@ -1,5 +1,5 @@
 for SCENE in \
-    spheres_cube_dataset_v6_statictimestep1 \
+    spheres_cube_dataset_v8_spec32_statictimestep1 \
     aa
     #standup150_v3_statictimestep75
 do
@@ -22,7 +22,7 @@ do
        #export DATA_SUBDIR
       echo "Processing SCENE: $SCENE with DATA_SUBDIR: $DATA_SUBDIR and with $MAP_PATH"
 
-      CUDA_VISIBLE_DEVICES=0 python eval_relighting_syn4.py -m outputs/s2_${DATA_SUBDIR}/irgs_$SCENE \
+      CUDA_VISIBLE_DEVICES=0 python eval_relighting_syn4.py -m outputs_specular/s2_${DATA_SUBDIR}/irgs_$SCENE \
         --diffuse_sample_num 1024 --light_sample_num 0 --albedo_rescale 2 -e light
 
     done
