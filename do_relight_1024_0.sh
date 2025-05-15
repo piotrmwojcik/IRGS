@@ -1,15 +1,13 @@
 for SCENE in \
-    hook150_v3_transl_statictimestep1 \
-    jumpingjacks150_v3_tex_statictimestep75 \
-    mouse150_v2_transl_statictimestep1 \
-    spheres_cube_dataset_v5_statictimestep1 \
-    standup150_v3_statictimestep75
+    spheres_cube_dataset_v6_spec_statictimestep1 \
+    aa
+    #standup150_v3_statictimestep75
 do
 
     pairs=(
       "chapel_day_4k_32x16_rot0 golden_bay_4k_32x16_rot330"
-      "dam_wall_4k_32x16_rot90 small_harbour_sunset_4k_32x16_rot270"
-      "golden_bay_4k_32x16_rot330 dam_wall_4k_32x16_rot90"
+      #"dam_wall_4k_32x16_rot90 small_harbour_sunset_4k_32x16_rot270"
+      #"golden_bay_4k_32x16_rot330 dam_wall_4k_32x16_rot90"
       "golden_bay_4k_32x16_rot330 chapel_day_4k_32x16_rot0"
     )
 
@@ -24,7 +22,7 @@ do
        #export DATA_SUBDIR
       echo "Processing SCENE: $SCENE with DATA_SUBDIR: $DATA_SUBDIR and with $MAP_PATH"
 
-      CUDA_VISIBLE_DEVICES=0 python eval_relighting_syn4.py -m outputs/s2_${DATA_SUBDIR}/irgs_$SCENE \
+      CUDA_VISIBLE_DEVICES=0 python eval_relighting_syn4.py -m outputs_specular/s2_${DATA_SUBDIR}/irgs_$SCENE \
         --diffuse_sample_num 1024 --light_sample_num 0 --albedo_rescale 2 -e light
 
     done
