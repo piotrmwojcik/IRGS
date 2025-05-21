@@ -27,7 +27,7 @@ do
       echo "Processing SCENE: $SCENE with DATA_SUBDIR: $DATA_SUBDIR and with $MAP_PATH"
 
       CUDA_VISIBLE_DEVICES=0 python eval_relighting_syn4.py -m outputs/s2_${DATA_SUBDIR}/irgs_$SCENE \
-        --diffuse_sample_num 512 --light_sample_num 256 --albedo_rescale 2 -e light
+        --diffuse_sample_num 1024 --light_sample_num 0 --albedo_rescale 2 -e light
 
     done
 done
