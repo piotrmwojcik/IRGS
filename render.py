@@ -110,6 +110,7 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         env_dict = gaussians.render_env_map()
 
         env2_map = env_dict["env2"].permute(2, 0, 1)
+        env2_map_unscaled = env2_map.clone()
         env2_map = env2_map / torch.max(env2_map)
         #print('!!! keys ', env_dict.keys())
 
@@ -119,10 +120,13 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         # Build the new filename for the saved image
         subdir = os.environ.get("DATA_SUBDIR", "")
         output_filename = f"scaled_env_map_{model_name_no_ext}_{subdir}.png"
+        output_filename_unscaled = f"unscaled_env_map_{model_name_no_ext}_{subdir}.png"
         output_path = os.path.join("/home/pwojcik/IRGS/outputs", output_filename)
+        output_path2 = os.path.join("/home/pwojcik/IRGS/outputs", output_filename_unscaled)
 
         # Save the image
         save_image(env2_map, output_path)
+        save_image(env2_map, output_path2)
 
         if not skip_train:
              render_set(dataset.model_path, "train", scene.loaded_iter, scene.getTrainCameras(), gaussians, pipeline, background)
