@@ -117,7 +117,8 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         model_name_no_ext = os.path.splitext(model_filename)[0]
 
         # Build the new filename for the saved image
-        output_filename = f"scaled_env_map_{model_name_no_ext}.png"
+        subdir = os.environ.get("DATA_SUBDIR", "")
+        output_filename = f"scaled_env_map_{model_name_no_ext}_{subdir}.png"
         output_path = os.path.join("/home/pwojcik/IRGS/outputs", output_filename)
 
         # Save the image
