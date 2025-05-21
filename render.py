@@ -113,13 +113,15 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         env2_map = env2_map / torch.max(env2_map)
         #print('!!! keys ', env_dict.keys())
 
-        #grid = [
-        #    env_dict["env1"].permute(2, 0, 1),
-        #    env_dict["env2"].permute(2, 0, 1),
-        #]
-        #grid = make_grid(grid, nrow=1, padding=10)
-        print('!!! saving')
-        save_image(env2_map, os.path.join("/home/pwojcik/IRGS/outputs", "scaled_env_map_jj.png"))
+        model_filename = os.path.basename(dataset.model_path)
+        model_name_no_ext = os.path.splitext(model_filename)[0]
+
+        # Build the new filename for the saved image
+        output_filename = f"scaled_env_map_{model_name_no_ext}.png"
+        output_path = os.path.join("/home/pwojcik/IRGS/outputs", output_filename)
+
+        # Save the image
+        save_image(env2_map, output_path)
 
         if not skip_train:
              render_set(dataset.model_path, "train", scene.loaded_iter, scene.getTrainCameras(), gaussians, pipeline, background)
