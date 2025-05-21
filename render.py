@@ -126,7 +126,7 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
 
         # Save the image
         save_image(env2_map, output_path)
-        save_image(env2_map, output_path2)
+        save_image(env2_map_unscaled, output_path2)
 
         if not skip_train:
              render_set(dataset.model_path, "train", scene.loaded_iter, scene.getTrainCameras(), gaussians, pipeline, background)
