@@ -6,12 +6,14 @@ for SCENE in \
     standup150_v3_statictimestep75
 do
 
-    pairs=(
-      "chapel_day_4k_32x16_rot0 golden_bay_4k_32x16_rot330"
-      "dam_wall_4k_32x16_rot90 small_harbour_sunset_4k_32x16_rot270"
-      "golden_bay_4k_32x16_rot330 dam_wall_4k_32x16_rot90"
-      "golden_bay_4k_32x16_rot330 chapel_day_4k_32x16_rot0"
-    )
+  pairs=(
+    "chapel_day_4k_32x16_rot0 golden_bay_4k_32x16_rot330"
+    "chapel_day_4k_32x16_rot0 dam_wall_4k_32x16_rot90"
+    "dam_wall_4k_32x16_rot90 small_harbour_sunset_4k_32x16_rot270"
+    "dam_wall_4k_32x16_rot90 golden_bay_4k_32x16_rot330"
+    "golden_bay_4k_32x16_rot330 dam_wall_4k_32x16_rot90"
+    "golden_bay_4k_32x16_rot330 chapel_day_4k_32x16_rot0"
+  )
 
     for pair in "${pairs[@]}"; do
       read DATA_SUBDIR MAP_NAME <<< "$pair"
