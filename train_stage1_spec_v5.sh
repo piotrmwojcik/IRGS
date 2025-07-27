@@ -6,9 +6,9 @@ for SCENE in \
     standup150_v5_spec32_statictimestep75
 do
     for DATA_SUBDIR in \
-      chapel_day_4k_2x16_rot0 \
-      dam_wall_4k_2x16_rot90 \
-      golden_bay_4k_2x16_rot330
+      chapel_day_4k_32x16_rot0 \
+      dam_wall_4k_32x16_rot90 \
+      golden_bay_4k_32x16_rot330
     do
         export DATA_SUBDIR
         echo "Processing SCENE: $SCENE with DATA_SUBDIR: $DATA_SUBDIR"
