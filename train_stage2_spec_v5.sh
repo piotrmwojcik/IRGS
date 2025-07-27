@@ -14,7 +14,7 @@ do
         echo "Processing SCENE: $SCENE with DATA_SUBDIR: $DATA_SUBDIR"
 
         CUDA_VISIBLE_DEVICES=0 python train.py \
-            -s data_specular/$SCENE/ \
+            -s data_specular_new/datasets_v5_specular32/$SCENE/ \
             --iterations 20000 \
             --start_checkpoint_refgs outputs_specular/$SCENE/$DATA_SUBDIR/chkpnt50000.pth \
             --envmap_resolution 128 \
