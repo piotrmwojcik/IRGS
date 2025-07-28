@@ -19,7 +19,7 @@ light_pairs = [
 ]
 
 # Base path
-base_path = "/home/pwojcik/IRGS/outputs"
+base_path = "/home/pwojcik/IRGS/outputs_specular"
 
 # Function to compute mean and standard deviation
 def compute_mean_std(values):
