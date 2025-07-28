@@ -39,7 +39,7 @@ for src_light, tgt_light in light_pairs:
 
     for scene in scenes:
         # Construct path to relighting_results.json
-        subfolder = f"s2_{src_light}/irgs_{scene}/test_rli_{tgt_light}_light"
+        subfolder = f"s2_{src_light}/irgs_{scene}/test_lg0_rli_{tgt_light}_light"
         json_path = os.path.join(base_path, subfolder, "relighting_results.json")
 
         if not os.path.isfile(json_path):
