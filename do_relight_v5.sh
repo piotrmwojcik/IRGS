@@ -17,7 +17,7 @@ do
 
     for pair in "${pairs[@]}"; do
       read DATA_SUBDIR MAP_NAME <<< "$pair"
-      MAP_PATH="/home/pwojcik/IRGS/data/$SCENE/$MAP_NAME.hdr"
+      MAP_PATH="/home/pwojcik/IRGS/data_specular_new/datasets_v5_specular32/$SCENE/$MAP_NAME.hdr"
       echo "Running with DATA_SUBDIR=$DATA_SUBDIR and SCENE=$SCENE"
       export MAP_PATH
       export MAP_NAME
