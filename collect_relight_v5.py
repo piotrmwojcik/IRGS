@@ -4,10 +4,10 @@ import math
 
 # List of scenes
 scenes = [
-    "hook150_v5_spec32_statictimestep1" \
-    "jumpingjacks150_v5_spec32_statictimestep75" \
-    "mouse150_v5_spec32_statictimestep1" \
-    "spheres_v5_spec32_statictimestep1" \
+    "hook150_v5_spec32_statictimestep1",
+    "jumpingjacks150_v5_spec32_statictimestep75",
+    "mouse150_v5_spec32_statictimestep1",
+    "spheres_v5_spec32_statictimestep1",
     "standup150_v5_spec32_statictimestep75"
 ]
 
