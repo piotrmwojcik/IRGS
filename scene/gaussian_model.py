@@ -366,7 +366,7 @@ class GaussianModel:
 
         self.env_map = EnvLight(path=None, device='cuda', resolution=[args.envmap_resolution // 2, args.envmap_resolution], max_res=args.envmap_resolution, init_value=args.envmap_init_value, activation=args.envmap_activation).cuda()
 
-        print('!!!! ', self.env_map.resolution)
+        print('ENV MAP !!!! ', self.env_map.resolution)
 
         self.max_radii2D = torch.zeros((self.get_xyz.shape[0]), device="cuda")
 

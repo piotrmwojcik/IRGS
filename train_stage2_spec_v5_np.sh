@@ -17,7 +17,8 @@ do
             -s data_specular_new/datasets_v5_specular32/$SCENE/ \
             --iterations 20000 \
             --start_checkpoint_refgs outputs_specular_np/$SCENE/$DATA_SUBDIR/chkpnt50000.pth \
-            --envmap_resolution 128 \
+            --envmap_resolution 16 \
+            --trace_num_rays 1048576 \
             --lambda_base_color_smooth 2 \
             --lambda_roughness_smooth 2 \
             --diffuse_sample_num 1024 \
