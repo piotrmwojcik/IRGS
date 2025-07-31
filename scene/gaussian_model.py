@@ -363,8 +363,11 @@ class GaussianModel:
         self._opacity = nn.Parameter(opacities.requires_grad_(True))
         self._features_dc = nn.Parameter(sh_features[:,:,0:1].transpose(1, 2).contiguous().requires_grad_(True))
         self._features_rest = nn.Parameter(sh_features[:,:,1:].transpose(1, 2).contiguous().requires_grad_(True))
-        
+
         self.env_map = EnvLight(path=None, device='cuda', resolution=[args.envmap_resolution // 2, args.envmap_resolution], max_res=args.envmap_resolution, init_value=args.envmap_init_value, activation=args.envmap_activation).cuda()
+
+        print('!!!! ', self.env_map.resolution)
+
         self.max_radii2D = torch.zeros((self.get_xyz.shape[0]), device="cuda")
 
     def training_setup(self, training_args):
