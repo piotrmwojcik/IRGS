@@ -128,6 +128,7 @@ def pixel_grid(width, height, center_x = 0.5, center_y = 0.5):
             (torch.arange(0, width, dtype=torch.float32, device="cuda") + center_x) / width)
     return torch.stack((x, y), dim=-1)
 
+
 class EnvLight(torch.nn.Module):
 
     def __init__(self, path=None, device=None, resolution=None, min_res=8, max_res=128, min_roughness=0.08, max_roughness=0.5, activation='exp', init_value=0.5):
@@ -138,6 +139,9 @@ class EnvLight(torch.nn.Module):
         self.resolution = resolution
         self.min_roughness = min_roughness
         self.max_roughness = max_roughness
+
+        # for map render
+        self.env_H, self.env_W = 256, 512
 
         if path is not None:
             latlong_img = self.load(path)
