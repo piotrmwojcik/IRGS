@@ -17,7 +17,7 @@ do
             -s data_specular_new/datasets_v5_specular32/$SCENE/ \
             --iterations 20000 \
             --start_checkpoint_refgs outputs_specular_inter/$SCENE/$DATA_SUBDIR/chkpnt50000.pth \
-            --envmap_resolution 128 \
+            --envmap_resolution 32 \
             --lambda_base_color_smooth 2 \
             --lambda_roughness_smooth 2 \
             --diffuse_sample_num 256 \
@@ -25,7 +25,7 @@ do
             --lambda_light_smooth 0.0005 \
             --init_roughness_value 0.6 \
             --lambda_light 0.1 \
-            -m outputs_specular/s2_${DATA_SUBDIR}/irgs_$SCENE \
+            -m outputs_specular_nem/s2_${DATA_SUBDIR}/irgs_$SCENE \
             --train_ray \
             --resolution 2
     done
