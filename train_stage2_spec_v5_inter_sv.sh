@@ -16,7 +16,7 @@ do
         CUDA_VISIBLE_DEVICES=0 python train.py \
             -s data_specular_new/datasets_v5_specular32/$SCENE/ \
             --iterations 20000 \
-            --start_checkpoint_refgs outputs_specular_inter/$SCENE/$DATA_SUBDIR/chkpnt50000.pth \
+            --start_checkpoint_refgs outputs_specular/$SCENE/$DATA_SUBDIR/chkpnt50000.pth \
             --envmap_resolution 32 \
             --lambda_base_color_smooth 2 \
             --lambda_roughness_smooth 2 \
