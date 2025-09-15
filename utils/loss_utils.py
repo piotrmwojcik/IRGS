@@ -176,7 +176,15 @@ def calculate_loss2(viewpoint_camera, pc, render_pkg, opt, iteration):
     loss = Ll1
     
     rendered_image_sh = render_pkg["render_sh"]
-    loss_sh = (1.0 - opt.lambda_dssim) * l1_loss(rendered_image_sh, gt_image) + opt.lambda_dssim * (1.0 - ssim(rendered_image_sh, gt_image))
+    rend_alpha = render_pkg['rend_alpha']
+    mask = (
+                rend_alpha > 0.9).float()  # (B,1,H,W), we need mask for enerf scenes, where we have areas with manually removed gaussians
+    if rendered_image_sh.shape[1] > 1:  # e.g. RGB
+        mask = mask.expand_as(rendered_image_sh)
+    masked_render = rendered_image_sh * mask
+    masked_gt = gt_image * mask
+    loss_sh = (1.0 - opt.lambda_dssim) * l1_loss(masked_render, masked_gt) + \
+              opt.lambda_dssim * (1.0 - ssim(masked_render, masked_gt))
     loss += loss_sh
 
     if opt.lambda_normal_render_depth > 0 and iteration > opt.normal_loss_start:
