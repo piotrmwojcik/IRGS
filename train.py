@@ -63,6 +63,12 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         os.path.join("/home/pwojcik/IRGS/outputs/images_710_780_single_ts/point_cloud/iteration_50000/point_cloud.ply"))
     #gaussians.create_from_pcd(gaussians.point_cloud, self.cameras_extent, args)
     print('!!! scalign shape 2', gaussians.get_scaling.shape)
+    gaussians._base_color.data[:] = gaussians.inverse_base_color_activation(
+        torch.full_like(gaussians._base_color.data, gaussians.init_base_color_value))
+    gaussians._metallic.data[:] = gaussians.inverse_metallic_activation(
+        torch.full_like(gaussians._metallic.data, gaussians.init_metallic_value))
+    gaussians._roughness.data[:] = gaussians.inverse_roughness_activation(
+        torch.full_like(gaussians._roughness.data, gaussians.init_roughness_value))
     gaussians.training_setup(opt)
     gaussians.build_bvh()
     

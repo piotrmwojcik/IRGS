@@ -193,7 +193,7 @@ def render_ir(viewpoint_camera, pc : GaussianModel, pipe, bg_color : torch.Tenso
     
     if training:
         if opt.train_ray:
-            mask_alpha = render_alpha[0] > 0
+            mask_alpha = render_alpha[0] > 0.9
             print(mask_alpha.sum().item(), (mask_alpha & viewpoint_camera.mask).sum().item())
             #print('!!! ', mask_alpha.shape, viewpoint_camera.mask.shape)
             mask_alpha = mask_alpha & viewpoint_camera.mask.squeeze(0)
