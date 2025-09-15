@@ -499,7 +499,7 @@ class GaussianModel:
         self.active_sh_degree = self.max_sh_degree
         
         scale_names = [p.name for p in plydata.elements[0].properties if p.name.startswith("scale_")]
-        scale_names = sorted(scale_names, key = lambda x: int(x.split('_')[-1]))
+        scale_names = sorted(scale_names, key = lambda x: int(x.split('_')[-1]))[:2]
         scales = np.zeros((xyz.shape[0], len(scale_names)))
         for idx, attr_name in enumerate(scale_names):
             scales[:, idx] = np.asarray(plydata.elements[0][attr_name])
