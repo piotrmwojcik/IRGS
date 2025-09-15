@@ -50,9 +50,11 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     scene = Scene(dataset, gaussians)
     gaussians.training_setup(opt)
     if checkpoint:
+        print('CHECKPOINT LOAD ', checkpoint)
         (model_params, first_iter) = torch.load(checkpoint, weights_only=False)
         gaussians.restore(model_params, opt)
     elif checkpoint_refgs:
+        print('CHECKPOINT REFGS LOAD ', checkpoint_refgs)
         (model_params, _) = torch.load(checkpoint_refgs, weights_only=False)
         gaussians.restore_from_refgs(model_params, opt)
 
