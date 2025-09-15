@@ -211,6 +211,7 @@ class GaussianModel:
     def restore_from_refgs(self, model_args, training_args=None):
         
         if len(model_args) == 26:
+            print('args else 1')
             (self.active_sh_degree, 
             self._xyz, 
             _refl_strength,  
@@ -238,6 +239,7 @@ class GaussianModel:
             env_dict,
             self.spatial_lr_scale) = model_args
         else:
+            print('args else 2')
             (self.active_sh_degree, 
             self._xyz, 
             self._metallic, 
