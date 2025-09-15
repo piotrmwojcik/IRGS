@@ -61,7 +61,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     gaussians.load_ply(
         os.path.join("/home/pwojcik/IRGS/outputs/images_710_780_single_ts/point_cloud/iteration_50000/point_cloud.ply"))
     #gaussians.create_from_pcd(scene_info.point_cloud, self.cameras_extent, args)
-    #gaussians.training_setup(opt)
+    gaussians.training_setup(opt)
     gaussians.build_bvh()
     
     if scene.light_rotate:
