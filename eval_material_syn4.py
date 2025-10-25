@@ -155,35 +155,35 @@ if __name__ == '__main__':
 
         # Save one image per frame (pred | gt)
         rough_name = f"rough_compare_{os.path.basename(frame['file_path'])}.png"
-        pred_r = render_pkg['roughness'].detach().clamp(0, 1).to('cpu')  # [1,H?,W?]
-        gt_r = gt_roughness.detach().clamp(0, 1).to('cpu')  # [1 or 3, H?, W?]
+        pred_r = render_pkg['roughness'].detach().clamp(0, 1).to('cpu')  # [1,H,W]
+        gt_r = gt_roughness.detach().clamp(0, 1).to('cpu')  # [1 or 3, H,W]
 
-        # Match spatial size to pred_r
+        # --- Ensure same spatial size (match pred_r) ---
         H, W = pred_r.shape[-2], pred_r.shape[-1]
         if gt_r.shape[-2:] != (H, W):
             gt_r = F.interpolate(gt_r.unsqueeze(0), size=(H, W), mode='bilinear', align_corners=False).squeeze(0)
 
-        # Ensure both are 3-channel for nice viewing
-        if pred_r.shape[0] == 1:
-            pred_vis = pred_r.repeat(3, 1, 1)  # [3,H,W]
-        else:
-            pred_vis = pred_r
+        # --- Make both 1-channel for roughness comparison (convert GT RGB → grayscale) ---
+        if gt_r.shape[0] == 3:
+            gt_r = gt_r.mean(dim=0, keepdim=True)  # [1,H,W]
 
-        if gt_r.shape[0] == 1:
-            gt_vis = gt_r.repeat(3, 1, 1)  # [3,H,W]
-        else:
-            gt_vis = gt_r
+        # (pred_r is already [1,H,W]; if not, reduce similarly)
+        if pred_r.shape[0] != 1:
+            pred_r = pred_r.mean(dim=0, keepdim=True)
 
-        # Optional: 2-px white separator
+        # Optional: for nicer viewing, repeat to 3 channels
+        pred_vis = pred_r.repeat(3, 1, 1)  # [3,H,W]
+        gt_vis = gt_r.repeat(3, 1, 1)  # [3,H,W]
+
+        # Small white separator (2 px)
         sep = torch.ones(3, H, 2)
 
-        # Concatenate horizontally: [3, H, W + 2 + W]
-        rough_compare = torch.cat([pred_vis, sep, gt_vis], dim=-1)
+        # Concatenate horizontally: pred | sep | gt
+        rough_compare = torch.cat([pred_vis, sep, gt_vis], dim=-1)  # [3,H,2+2W]
 
-        # Save one image per frame
+        # Save
         rough_name = f"rough_compare_{os.path.basename(frame['file_path'])}.png"
         save_image(rough_compare, os.path.join(args.model_path, rough_name))
-
         print(render_pkg['base_color_linear'].shape)
         print(base_color_scale.shape)
         save_image(render_pkg['base_color'], os.path.join(args.model_path,
