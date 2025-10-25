@@ -128,7 +128,7 @@ if __name__ == '__main__':
         gt_albedo = srgb_to_rgb(gt_albedo)
         #gt_albedo = gt_albedo.permute(1, 2, 0)
         #mask = mask.permute(1, 2, 0)
-        roughness_path = os.path.join(args.source_path, "roughness/", frame["file_path"], ".png")
+        roughness_path = os.path.join(args.source_path, "roughness/", f'{frame["file_path"]}.png')
         #roughness_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rough.png")
         gt_roughness_np = load_img_rgb(roughness_path)
         gt_roughness = torch.from_numpy(gt_roughness_np[..., :3] * gt_roughness_np[..., 3:4]).permute(2, 0, 1).float().cuda()
