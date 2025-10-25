@@ -131,11 +131,10 @@ if __name__ == '__main__':
         roughness_path = os.path.join(args.source_path, "roughness/", f'{frame["file_path"]}.png')
         #roughness_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rough.png")
         gt_roughness_np = load_img_rgb(roughness_path)
-        #gt_roughness = torch.from_numpy(gt_roughness_np[..., :3] * gt_roughness_np[..., 3:4]).permute(2, 0, 1).float().cuda()
+        gt_roughness = torch.from_numpy(gt_roughness_np[..., :3]).permute(2, 0, 1).float().cuda()
 
-        gt_roughness = F.interpolate(gt_roughness_np[..., :3].unsqueeze(0), size=(400, 400), mode='bilinear',
-                                    align_corners=False).squeeze(0)
-
+        gt_roughness = F.interpolate(gt_roughness.unsqueeze(0), size=(400, 400), mode='bilinear',
+                                     align_corners=False).squeeze(0)
 
         H = gt_albedo.shape[1]
         W = gt_albedo.shape[2]
