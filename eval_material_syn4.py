@@ -3,6 +3,7 @@ import os
 from gaussian_renderer import render_ir
 import numpy as np
 import torch
+import torch.nn.functional as F
 from scene import GaussianModel
 from argparse import ArgumentParser
 from arguments import ModelParams, PipelineParams, get_combined_args
@@ -111,9 +112,13 @@ if __name__ == '__main__':
 
         match = find_matching_file(os.path.join(args.source_path, 'albedo'), frame["file_path"])
         albedo_path = os.path.join(args.source_path, "albedo/" + match)
+        roughness_path = os.path.join(args.source_path, "roughness/" + match)
         from PIL import Image
         gt_albedo_np = load_img_rgb(albedo_path)
+        gt_roughness_np = load_img_rgb(roughness_path)
         gt_albedo = torch.from_numpy(gt_albedo_np)[..., :3].cuda().float().permute(2, 0, 1)
+        gt_roughness = torch.from_numpy(gt_roughness_np[..., :1]).float().permute(2, 0, 1)
+        gt_roughness = gt_roughness.cuda()
         image_path = os.path.join(args.source_path, f'{subdir}/' + frame["file_path"].split("/")[-1] + ".png")
         print('loaded ', gt_albedo_np.shape, image_rgba.shape)
         mask = torch.from_numpy(image_rgba[..., 3:4]).permute(2, 0, 1).float().cuda()
@@ -124,6 +129,9 @@ if __name__ == '__main__':
         # Remove batch dimension: [1, 400, 400]
         gt_albedo = F.interpolate(gt_albedo.unsqueeze(0), size=(400, 400), mode='bilinear',
                                   align_corners=False).squeeze(0)
+
+        gt_roughness = F.interpolate(gt_roughness.unsqueeze(0), size=(400, 400), mode='bilinear',
+                                     align_corners=False).squeeze(0)
 
         gt_albedo = srgb_to_rgb(gt_albedo)
         #gt_albedo = gt_albedo.permute(1, 2, 0)
@@ -148,14 +156,22 @@ if __name__ == '__main__':
         print(base_color_scale.shape)
         save_image(render_pkg['base_color'], os.path.join(args.model_path,
                     f'scaled_albedo_{frame["file_path"].split("/")[-1]}.png'))
-        render_pkg['base_color_linear'] = render_pkg['base_color_linear'] * mask
+        save_image(render_pkg['roughness'], os.path.join(args.model_path,
+                    f'roughness_{frame["file_path"].split("/")[-1]}.png'))
+        render_pkg['roughness'] = render_pkg['roughness'] * mask
         print('!!! gt albedo size', H, W, render_pkg['base_color_linear'].shape,
               mask.shape, gt_albedo.shape, render_pkg['base_color_linear'].dtype, mask.dtype, gt_albedo.dtype)
         #render_pkg['roughness'] = render_pkg['roughness'] * mask
         gt_albedo = gt_albedo * mask
+        gt_roughness = gt_roughness * mask
         #gt_roughness = gt_roughness * mask
         psnr_albedo += psnr(render_pkg['base_color_linear'], gt_albedo).mean().double().item()
         ssim_albedo += ssim(render_pkg['base_color_linear'], gt_albedo).mean().double().item()
+        mse_roughness += F.mse_loss(
+            render_pkg['roughness_linear'],  # shape like [1,H,W]
+            gt_roughness,  # shape [1,H,W]
+            reduction='mean'
+        ).double().item()
         if not args.no_lpips:
             lpips_albedo += lpips(render_pkg['base_color_linear'], gt_albedo, net_type='vgg').mean().double().item()
         #mse_roughness += ((render_pkg['roughness'] - gt_roughness)**2).mean().double().item()
