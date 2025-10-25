@@ -131,7 +131,7 @@ if __name__ == '__main__':
         roughness_path = os.path.join(args.source_path, "roughness/", f'{frame["file_path"]}.png')
         #roughness_path = os.path.join(args.source_path, "test/" + frame["file_path"].split("/")[-1] + "_rough.png")
         gt_roughness_np = load_img_rgb(roughness_path)
-        gt_roughness = torch.from_numpy(gt_roughness_np[..., :3] * gt_roughness_np[..., 3:4]).permute(2, 0, 1).float().cuda()
+        #gt_roughness = torch.from_numpy(gt_roughness_np[..., :3] * gt_roughness_np[..., 3:4]).permute(2, 0, 1).float().cuda()
 
         gt_roughness = F.interpolate(gt_roughness.unsqueeze(0), size=(400, 400), mode='bilinear',
                                     align_corners=False).squeeze(0)
@@ -170,15 +170,14 @@ if __name__ == '__main__':
         pred_vis = pred_r.repeat(3, 1, 1)  # [3,H,W]
         gt_vis = gt_r.repeat(3, 1, 1)  # [3,H,W]
 
-        # Small white separator (2 px)
-        sep = torch.ones(3, H, 2)
-
         # Concatenate horizontally: pred | sep | gt
-        rough_compare = torch.cat([pred_vis, sep, gt_vis], dim=-1)  # [3,H,2+2W]
+        rough_compare = torch.cat([pred_vis, gt_vis], dim=-1)  # [3,H,2+2W]
 
         # Save
         rough_name = f"rough_compare_{os.path.basename(frame['file_path'])}.png"
+        rough_generated_name =f"rough_generated_{os.path.basename(frame['file_path'])}.png"
         save_image(rough_compare, os.path.join(args.model_path, rough_name))
+        save_image(pred_vis, os.path.join(args.model_path, rough_generated_name))
         print(render_pkg['base_color_linear'].shape)
         print(base_color_scale.shape)
         save_image(render_pkg['base_color'], os.path.join(args.model_path,
