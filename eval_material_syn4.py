@@ -147,11 +147,6 @@ if __name__ == '__main__':
 
         with torch.no_grad():
             render_pkg = render_ir(viewpoint_camera=custom_cam, **render_kwargs)
-        pred_r = render_pkg['roughness'].detach().clamp(0, 1).to('cpu')
-        gt_r = gt_roughness.detach().clamp(0, 1).to('cpu')
-
-        # Concatenate horizontally: [1, H, 2W]
-        rough_compare = torch.cat([pred_r, gt_r], dim=-1)
 
         # Save one image per frame (pred | gt)
         rough_name = f"rough_compare_{os.path.basename(frame['file_path'])}.png"
