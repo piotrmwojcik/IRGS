@@ -136,6 +136,15 @@ if __name__ == '__main__':
         gt_roughness = F.interpolate(gt_roughness.unsqueeze(0), size=(400, 400), mode='bilinear',
                                     align_corners=False).squeeze(0)
 
+        pred_r = render_pkg['roughness'].detach().clamp(0, 1).to('cpu')
+        gt_r = gt_roughness.detach().clamp(0, 1).to('cpu')
+
+        # Concatenate horizontally: [1, H, 2W]
+        rough_compare = torch.cat([pred_r, gt_r], dim=-1)
+
+        # Save one image per frame (pred | gt)
+        rough_name = f"rough_compare_{os.path.basename(frame['file_path'])}.png"
+        save_image(rough_compare, os.path.join(args.model_path, rough_name))
 
         H = gt_albedo.shape[1]
         W = gt_albedo.shape[2]
