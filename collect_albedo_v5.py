@@ -13,9 +13,9 @@ scenes = [
 
 # List of maps
 maps = [
-    "chapel_day_4k_32x16_rot0",
+    #"chapel_day_4k_32x16_rot0",
     "dam_wall_4k_32x16_rot90",
-    "golden_bay_4k_32x16_rot330"
+    #"golden_bay_4k_32x16_rot330"
 ]
 
 # Base directory
@@ -24,6 +24,7 @@ base_dir = "/home/pwojcik/IRGS/outputs_specular"
 # Value lists for statistics
 psnr_albedo_values = []
 ssim_albedo_values = []
+mse_roughness_values = []
 lpips_albedo_values = []
 
 # Iterate over all map and scene combinations
@@ -40,6 +41,7 @@ for map_name in maps:
                 data = json.load(f)
                 psnr_albedo_values.append(data.get("psnr_albedo_avg", 0.0))
                 ssim_albedo_values.append(data.get("ssim_albedo_avg", 0.0))
+                mse_roughness_values.append((data.get("mse_roughness_avg", 0.0)))
                 lpips_albedo_values.append(data.get("lpips_albedo_avg", 0.0))
         except Exception as e:
             print(f"Error reading {json_path}: {e}")
@@ -57,10 +59,12 @@ if psnr_albedo_values:
     psnr_mean, psnr_std = compute_mean_std(psnr_albedo_values)
     ssim_mean, ssim_std = compute_mean_std(ssim_albedo_values)
     lpips_mean, lpips_std = compute_mean_std(lpips_albedo_values)
+    mse_mean, mse_std = compute_mean_std(mse_roughness_values)
 
     print("\n✅ Global Averages and Standard Deviations for Albedo Metrics:")
     print(f"psnr_albedo_avg:  {psnr_mean:.3f} ± {psnr_std:.3f}")
     print(f"ssim_albedo_avg:  {ssim_mean:.3f} ± {ssim_std:.3f}")
     print(f"lpips_albedo_avg: {lpips_mean:.3f} ± {lpips_std:.3f}")
+    print(f"mse_roughness_avg:  {ssim_mean:.3f} ± {ssim_std:.3f}")
 else:
     print("❌ No valid material_results.json files found.")
